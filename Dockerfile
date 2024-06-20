@@ -1,8 +1,5 @@
 FROM alpine:20240606
 
-COPY ["cps.py", "requirements.txt", "optional-requirements.txt", "/app/calibre-web/"]
-COPY ["cps/", "/app/calibre-web/cps"]
-
 WORKDIR /app/calibre-web
 ENV PATH="/opt/venv/bin:$PATH"
 
