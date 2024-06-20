@@ -7,10 +7,11 @@ on:
 jobs:
   get-version:
     runs-on: ubuntu-latest
-      with:
-        token: ${{ github.token }}
+
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ github.token }}
       - name: Fetch release version
         run: |
           curl -sL https://api.github.com/repos/${{ github.repository_owner }}/calibre-web | \
