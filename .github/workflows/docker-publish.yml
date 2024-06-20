@@ -5,8 +5,8 @@ on:
   workflow_dispatch:
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: calibre-web
-
+  IMAGE_NAME: calibre-web-nd
+  REPO: ${{ github.repository_owner }}/calibre-web
 jobs:
   build-and-push-image:
     runs-on: ubuntu-latest
