@@ -29,6 +29,7 @@ RUN apk add --no-cache \
  && pip install -r requirements.txt optional-requirements.txt \
  && apk del \
         build-base \
+        curl \
         linux-headers \
         openldap-dev \
         python3-dev \
