@@ -1,7 +1,10 @@
-FROM alpine:20240606
+FROM --platform=$BUILDPLATFORM alpine:20240606
 
 WORKDIR /app/calibre-web
 ENV PATH="/opt/venv/bin:$PATH"
+
+ARG TARGETOS
+ARG TARGETARCH
 
 RUN apk add --no-cache \
         build-base \
@@ -13,6 +16,13 @@ RUN apk add --no-cache \
  && curl -o \
         /tmp/calibre-web.tar.gz -L \
         https://github.com/nigeldixon/calibre-web/archive/develop.tar.gz \
+ && if [ -z ${KEPUBIFY_RELEASE+x} ]; then \
+        KEPUBIFY_RELEASE=$(curl -sX GET "https://api.github.com/repos/pgaskin/kepubify/releases/latest" \
+        | awk '/tag_name/{print $4;exit}' FS='[""]'); \
+ fi \
+ && curl -o \
+        /usr/bin/kepublify -L \
+        https://github.com/pgaskin/kepubify/releases/download/${KEPUBIFY_RELEASE}/kepubify-linux-${TARGETARCH} \
  && mkdir -p \
         /app/calibre-web \
  && tar xf \
