@@ -8,7 +8,7 @@ jobs:
   get-version:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Fetch release version
         run: |
           curl -sL https://api.github.com/repos/${{ github.repository_owner }} calibre-web | \
