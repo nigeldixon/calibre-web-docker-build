@@ -13,7 +13,7 @@ jobs:
           token: ${{ github.token }}
       - name: Fetch release version
         run: |
-          curl -sL https://api.github.com/repos/{{ github.repository_owner }} calibre-web | \
+          curl -sL https://api.github.com/repos/${{ github.repository_owner }} calibre-web | \
           jq -r ".[] | select(.name=="develop") | .commit.sha" > latest-develop-commit.txt
       - name: Check for modified files
         id: git-check
