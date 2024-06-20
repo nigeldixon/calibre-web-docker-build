@@ -11,9 +11,9 @@ RUN apk add --no-cache \
         py3-pip \
  && curl -o \
         /tmp/calibre-web.tar.gz -L \
-        https://github.com/${{ github.repository_owner }}/calibre-web/archive/develop.tar.gz && \
+        https://github.com/${{ github.repository_owner }}/calibre-web/archive/develop.tar.gz \
  && mkdir -p \
-        /app/calibre-web && \
+        /app/calibre-web \
  && tar xf \
         /tmp/calibre-web.tar.gz -C \
         /app/calibre-web --strip-components=1 \
