@@ -12,6 +12,22 @@ RUN apk add --no-cache \
         openldap-dev \
         python3-dev \
         py3-pip \
+ && curl -o \
+        /tmp/calibre-web.tar.gz -L \
+          curl -o \
+    /tmp/calibre-web.tar.gz -L \
+    https://github.com/${{ github.repository_owner }}/calibre-web/archive/develop.tar.gz && \
+  mkdir -p \
+    /app/calibre-web && \
+  tar xf \
+    /tmp/calibre-web.tar.gz -C \
+    /app/calibre-web --strip-components=1 && \
+  cd /app/calibre-web && \ \
+ && mkdir -p \
+        /app/calibre-web \
+ && tar xf \
+        /tmp/calibre-web.tar.gz -C \
+        /app/calibre-web --strip-components=1 \
  && cd /app/calibre-web \
  && python -m venv /opt/venv \
  && pip install -r requirements.txt optional-requirements.txt \
