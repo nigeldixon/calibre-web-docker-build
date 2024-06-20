@@ -9,8 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          token: ${{ github.token }}
       - name: Fetch release version
         run: |
           curl -sL https://api.github.com/repos/${{ github.repository_owner }} calibre-web | \
