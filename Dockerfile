@@ -5,6 +5,7 @@ ENV PATH="/opt/venv/bin:$PATH"
 
 RUN apk add --no-cache \
         build-base \
+        curl \
         linux-headers \
         openldap-dev \
         python3-dev \
