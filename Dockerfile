@@ -18,7 +18,6 @@ RUN apk add --no-cache \
  && tar xf \
         /tmp/calibre-web.tar.gz -C \
         /app/calibre-web --strip-components=1 \
- && cd /app/calibre-web \
  && mkdir -p \
         /app/calibre-web \
  && tar xf \
