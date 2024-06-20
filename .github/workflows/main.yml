@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          token: ${{ secrets.REPO_SCOPED_TOKEN }}
+          token: ${{ github.token }}
       - name: Fetch release version
         run: |
           curl -sL https://api.github.com/repos/{{ github.repository_owner }} calibre-web | \
