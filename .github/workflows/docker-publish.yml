@@ -45,7 +45,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: develop
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:develop
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/amd64,linux/arm64
           provenance: false
