@@ -24,7 +24,7 @@ RUN apk add --no-cache \
         /usr/bin/kepublify -L \
         https://github.com/pgaskin/kepubify/releases/download/${KEPUBIFY_RELEASE}/kepubify-linux-${TARGETARCH} \
  && CALIBRE_RELEASE=$(curl -sX GET "https://api.github.com/repos/kovidgoyal/calibre/releases/latest" \
-	| awk '/tag_name/{print $4;exit}' FS='[""]' | sed 's/^v//g' ) && \ 
+	| awk '/tag_name/{print $4;exit}' FS='[""]' | sed 's/^v//g' ) \ 
  && curl -o \
 	/tmp/calibre.txz -L \
 	"https://github.com/kovidgoyal/calibre/releases/download/v${CALIBRE_RELEASE}/calibre-${CALIBRE_RELEASE}-${TARTGETARCH}.txz" \
