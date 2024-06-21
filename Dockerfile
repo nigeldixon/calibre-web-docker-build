@@ -37,7 +37,7 @@ RUN apk add --no-cache \
         /app/calibre-web --strip-components=1 \
  && tar xf \
 	/tmp/calibre.txz \
-	-C /root-layer/app/calibre \
+	-C /app/calibre \
  && mkdir -p \
         /app/calibre-web \
  && tar xf \
