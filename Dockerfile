@@ -38,7 +38,6 @@ RUN apk add --no-cache \
  && tar xf \
 	/tmp/calibre.txz \
 	-C /root-layer/app/calibre \
-        
  && mkdir -p \
         /app/calibre-web \
  && tar xf \
