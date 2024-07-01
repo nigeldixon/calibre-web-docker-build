@@ -1,7 +1,9 @@
 FROM --platform=$BUILDPLATFORM alpine:20240606
 
+
+ENV VIRTUAL_ENV=/opt/venv
 WORKDIR /app/calibre-web
-ENV PATH="/opt/venv/bin:$PATH"
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 ARG TARGETOS
 ARG TARGETARCH
@@ -44,7 +46,7 @@ RUN apk add --no-cache \
         /tmp/calibre-web.tar.gz -C \
         /app/calibre-web --strip-components=1 \
  && cd /app/calibre-web \
- && python -m venv /opt/venv \
+ && python -m venv $VIRTUAL_ENV \
  && pip install -r requirements.txt \
  && pip install -r optional-requirements.txt \
  && apk del \
