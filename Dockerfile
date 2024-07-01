@@ -7,8 +7,11 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 ARG TARGETOS
 ARG TARGETARCH
+ARG BUILDPLATFORM
 
-RUN apk add --no-cache \
+
+RUN echo "I am running on $BUILDPLATFORM, building for $TARGETPLATFORM" \
+ && apk add --no-cache \
         build-base \
         curl \
         linux-headers \
