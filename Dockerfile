@@ -11,8 +11,7 @@ ARG BUILDPLATFORM
 ARG TARGETPLATFORM
 
 
-RUN echo "I am running on $BUILDPLATFORM, building for $TARGETPLATFORM" \
- && apk add --no-cache \
+RUN apk add --no-cache \
         build-base \
         curl \
         linux-headers \
