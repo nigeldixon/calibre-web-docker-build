@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM alpine:20240606
+FROM alpine:20240606
 
 
 ENV VIRTUAL_ENV=/opt/venv
