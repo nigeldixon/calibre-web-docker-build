@@ -71,4 +71,4 @@ EXPOSE 8083
 VOLUME /config
 VOLUME /library
 
-ENTRYPOINT ["python", "cps.py"]
+ENTRYPOINT ["python", "cps.py", "-p", "/config/app.db"]
