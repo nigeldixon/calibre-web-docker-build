@@ -5,6 +5,8 @@ ENV VIRTUAL_ENV=/opt/venv
 WORKDIR /app/calibre-web
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
+ENV CALIBRE_DBPATH=/config
+
 ARG TARGETOS
 ARG TARGETARCH
 ARG BUILDPLATFORM
@@ -71,4 +73,4 @@ EXPOSE 8083
 VOLUME /config
 VOLUME /books
 
-ENTRYPOINT ["python", "cps.py", "-p", "/config/app.db"]
+ENTRYPOINT ["python", "cps.py"]
