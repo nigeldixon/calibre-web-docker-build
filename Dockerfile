@@ -69,6 +69,6 @@ RUN apk add --no-cache \
 
 EXPOSE 8083
 VOLUME /config
-VOLUME /library
+VOLUME /books
 
 ENTRYPOINT ["python", "cps.py", "-p", "/config/app.db"]
