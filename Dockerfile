@@ -14,7 +14,7 @@ ARG TARGETPLATFORM
 RUN apk add --no-cache \
         build-base \
         curl \
-	libffi \
+       	libffi-dev \
         linux-headers \
         openldap-dev \
         python3-dev \
