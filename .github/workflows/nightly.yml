@@ -1,9 +1,7 @@
 name: Get latest develop commit
 on:
   schedule:
-    - cron:  '0 23 * * *'
-  workflow_dispatch:
-  
+    - cron:  '0 23 * * *'  
 jobs:
   get-version:
     runs-on: ubuntu-latest
