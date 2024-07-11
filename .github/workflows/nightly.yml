@@ -23,5 +23,5 @@ jobs:
         run: |
           git config --global user.name 'Release Bot'
           git config --global user.email 'releasebot@iamdixon.net'
-          git commit -am "New release version"
+          git commit -am "New commits to develop branch"
           git push
