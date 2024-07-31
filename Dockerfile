@@ -69,6 +69,8 @@ RUN apk add --no-cache \
         libsasl \
         python3
 
+RUN echo "${TARGETARCH}"
+
 EXPOSE 8083
 VOLUME /config
 VOLUME /books
