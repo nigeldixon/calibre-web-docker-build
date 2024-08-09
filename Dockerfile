@@ -55,7 +55,7 @@ RUN apk add --no-cache \
         /app/calibre-web --strip-components=1 \
  && cd /app/calibre-web \
  && python -m venv $VIRTUAL_ENV \
- && pip install --ignore-installed -r requirements.txt -r optional-requirements.txt \
+ && pip install --ignore-installed --prefer-binary -r requirements.txt -r optional-requirements.txt \
  && apk del \
         build-base \
         curl \
