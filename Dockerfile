@@ -22,6 +22,7 @@ RUN apk add --no-cache \
         python3-dev \
         py3-pip \
 	py3-flask-principal \
+ 	py3-netifaces \
  && curl -o \
         /tmp/calibre-web.tar.gz -L \
         https://github.com/nigeldixon/calibre-web/archive/develop.tar.gz \
