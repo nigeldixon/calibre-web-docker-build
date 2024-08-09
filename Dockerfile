@@ -21,9 +21,6 @@ RUN apk add --no-cache \
         openldap-dev \
         python3-dev \
         py3-pip \
-	py3-flask-principal \
- 	py3-ldap \
-  	py3-netifaces \
  && curl -o \
         /tmp/calibre-web.tar.gz -L \
         https://github.com/nigeldixon/calibre-web/archive/develop.tar.gz \
@@ -57,6 +54,8 @@ RUN apk add --no-cache \
         /app/calibre-web --strip-components=1 \
  && cd /app/calibre-web \
  && python -m venv $VIRTUAL_ENV \
+ && pip install --upgrade pip \
+ && pip install pipenv \
  && pip install --ignore-installed --prefer-binary -r requirements.txt -r optional-requirements.txt \
  && apk del \
         build-base \
