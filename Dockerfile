@@ -1,4 +1,4 @@
-FROM alpine:20240606
+FROM python:3.8-alpine
 
 
 ENV VIRTUAL_ENV=/opt/venv
