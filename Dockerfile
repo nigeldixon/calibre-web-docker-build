@@ -21,6 +21,7 @@ RUN apk add --no-cache \
         openldap-dev \
         python3-dev \
         py3-pip \
+	py3-netifaces
  && curl -o \
         /tmp/calibre-web.tar.gz -L \
         https://github.com/nigeldixon/calibre-web/archive/develop.tar.gz \
