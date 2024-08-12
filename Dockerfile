@@ -34,9 +34,11 @@ RUN apk add --no-cache \
  && chmod +x /usr/bin/kepubify \
  && CALIBRE_RELEASE=$(curl -sX GET "https://api.github.com/repos/kovidgoyal/calibre/releases/latest" \
 	| awk '/tag_name/{print $4;exit}' FS='[""]' | sed 's/^v//g' ) \ 
+ && CALIBRE_URL="https://download.calibre-ebook.com/${CALIBRE_RELEASE}/calibre-${CALIBRE_RELEASE}-arm64.txz" \
+ && echo $CALIBRE_URL \
  && curl -o \
 	/tmp/calibre.txz -L \
-	"https://download.calibre-ebook.com/${CALIBRE_RELEASE}/calibre-${CALIBRE_RELEASE}-arm64.txz" \
+	"$CALIBRE_URL" \
  && mkdir -p \
         /app/calibre-web \
  && mkdir -p \
@@ -71,7 +73,7 @@ RUN apk add --no-cache \
         libsasl \
         python3
 
-RUN echo "${CALIBRE_RELEASE}"
+RUN echo "$CALIBRE_URL"
 
 EXPOSE 8083
 VOLUME /config
