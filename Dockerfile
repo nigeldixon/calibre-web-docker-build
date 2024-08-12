@@ -36,7 +36,7 @@ RUN apk add --no-cache \
 	| awk '/tag_name/{print $4;exit}' FS='[""]' | sed 's/^v//g' ) \ 
  && curl -o \
 	/tmp/calibre.txz -L \
-	"https://download.calibre-ebook.com/${CALIBRE_RELEASE}/calibre-${CALIBRE_RELEASE}-${TARGETARCH/amd64/x86_64}.txz" \
+	"https://download.calibre-ebook.com/${CALIBRE_RELEASE}/calibre-${CALIBRE_RELEASE}-arm64.txz" \
  && mkdir -p \
         /app/calibre-web \
  && mkdir -p \
