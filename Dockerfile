@@ -4,7 +4,7 @@ FROM python:3.8-alpine
 ENV VIRTUAL_ENV=/opt/venv
 WORKDIR /app/calibre-web
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
-ENV CALIBRE_INSTALLER_SOURCE_CODE_URL https://raw.githubusercontent.com/kovidgoyal/calibre/master/setup/linux-installer.py
+ENV CALIBRE_INSTALLER_SOURCE_CODE_URL=https://raw.githubusercontent.com/kovidgoyal/calibre/master/setup/linux-installer.py
 ENV CALIBRE_DBPATH=/config
 
 ARG TARGETOS
