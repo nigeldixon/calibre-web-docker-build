@@ -15,7 +15,13 @@ ARG TARGETPLATFORM
 
 RUN apk add --no-cache \
         build-base \
+	ca-certificated \
         curl \
+	gcc \
+ 	mesa-gl \
+  	qt5-qtbase-x11 \
+   	xdg-utils \
+    	xz \
        	libffi-dev \
         linux-headers \
         openldap-dev \
@@ -34,7 +40,7 @@ RUN apk add --no-cache \
  && chmod +x /usr/bin/kepubify \
  && CALIBRE_RELEASE=$(curl -sX GET "https://api.github.com/repos/kovidgoyal/calibre/releases/latest" \
 	| awk '/tag_name/{print $4;exit}' FS='[""]' | sed 's/^v//g' ) \ 
- && CALIBRE_URL="https://download.calibre-ebook.com/${CALIBRE_RELEASE}/calibre-${CALIBRE_RELEASE}-arm64.txz" \
+ && CALIBRE_URL="https://download.calibre-ebook.com/${CALIBRE_RELEASE}/calibre-${CALIBRE_RELEASE}-${TARGETARCH/amd64/x86_64}.txz" \
  && curl -o \
 	/tmp/calibre.txz -L \
 	"$CALIBRE_URL" \
