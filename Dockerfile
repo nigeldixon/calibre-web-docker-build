@@ -17,6 +17,7 @@ ARG TARGETPLATFORM
 RUN apk add --no-cache \
         build-base \
 	bash \
+ 	gcompat \
 	ca-certificates \
         curl \
 	gcc \
