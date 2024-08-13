@@ -28,7 +28,8 @@ RUN apk add --no-cache \
         openldap-dev \
         python3-dev \
         py3-pip \
- && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sh /dev/stdin \
+ && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | python -c "import sys; main=lambda:sys.stderr.write('Download failed\n'); exec(sys.stdin.read()); main(install_dir='/opt', isolated=True)" \
+ && rm -rf /tmp/calibre-installer-cache
  && curl -o \
         /tmp/calibre-web.tar.gz -L \
         https://github.com/nigeldixon/calibre-web/archive/develop.tar.gz \
