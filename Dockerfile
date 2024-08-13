@@ -15,7 +15,7 @@ ARG TARGETPLATFORM
 
 RUN apk add --no-cache \
         build-base \
-	ca-certificated \
+	ca-certificates \
         curl \
 	gcc \
  	mesa-gl \
