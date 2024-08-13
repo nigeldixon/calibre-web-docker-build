@@ -71,7 +71,8 @@ RUN apk add --no-cache \
         imagemagick \
         libldap \
         libsasl \
-        python3
+        python3 \
+ && echo "$CALIBRE_URL"
 
 RUN echo "$CALIBRE_URL"
 
