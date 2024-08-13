@@ -28,7 +28,7 @@ RUN apk add --no-cache \
         openldap-dev \
         python3-dev \
         py3-pip \
- && sudo -v && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin \
+ && sudo -v && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sh /dev/stdin \
  && curl -o \
         /tmp/calibre-web.tar.gz -L \
         https://github.com/nigeldixon/calibre-web/archive/develop.tar.gz \
