@@ -4,7 +4,7 @@ FROM python:3.8-alpine
 ENV VIRTUAL_ENV=/opt/venv
 WORKDIR /app/calibre-web
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
-
+ENV CALIBRE_INSTALLER_SOURCE_CODE_URL https://raw.githubusercontent.com/kovidgoyal/calibre/master/setup/linux-installer.py
 ENV CALIBRE_DBPATH=/config
 
 ARG TARGETOS
@@ -28,7 +28,7 @@ RUN apk add --no-cache \
         openldap-dev \
         python3-dev \
         py3-pip \
- && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | python -c "import sys; main=lambda:sys.stderr.write('Download failed\n'); exec(sys.stdin.read()); main(install_dir='/opt', isolated=True)" \
+ && wget -nv -O- $CALIBRE_INSTALLER_SOURCE_CODE_URL | python -c "import sys; main=lambda:sys.stderr.write('Download failed\n'); exec(sys.stdin.read()); main(install_dir='/opt', isolated=True)" \
  && rm -rf /tmp/calibre-installer-cache \
  && curl -o \
         /tmp/calibre-web.tar.gz -L \
