@@ -35,7 +35,6 @@ RUN apk add --no-cache \
  && CALIBRE_RELEASE=$(curl -sX GET "https://api.github.com/repos/kovidgoyal/calibre/releases/latest" \
 	| awk '/tag_name/{print $4;exit}' FS='[""]' | sed 's/^v//g' ) \ 
  && CALIBRE_URL="https://download.calibre-ebook.com/${CALIBRE_RELEASE}/calibre-${CALIBRE_RELEASE}-arm64.txz" \
- && echo $CALIBRE_URL \
  && curl -o \
 	/tmp/calibre.txz -L \
 	"$CALIBRE_URL" \
@@ -43,17 +42,12 @@ RUN apk add --no-cache \
         /app/calibre-web \
  && mkdir -p \
         /app/calibre \
- && tar xf \
+ && tar xvf \
         /tmp/calibre-web.tar.gz -C \
         /app/calibre-web --strip-components=1 \
- && tar xf \
+ && tar xvf \
 	/tmp/calibre.txz \
 	-C /app/calibre \
- && mkdir -p \
-        /app/calibre-web \
- && tar xf \
-        /tmp/calibre-web.tar.gz -C \
-        /app/calibre-web --strip-components=1 \
  && cd /app/calibre-web \
  && python -m venv $VIRTUAL_ENV \
  && pip install --upgrade pip wheel \
