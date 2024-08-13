@@ -3,9 +3,8 @@ FROM python:3.8-alpine
 
 ENV VIRTUAL_ENV=/opt/venv
 WORKDIR /app/calibre-web
-ENV PATH="$VIRTUAL_ENV/bin:$PATH:/opt/calibre/bin"
-ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:/opt/calibre/lib
-ENV CALIBRE_INSTALLER_SOURCE_CODE_URL=https://raw.githubusercontent.com/kovidgoyal/calibre/master/setup/linux-installer.py
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
 ENV CALIBRE_DBPATH=/config
 
 ARG TARGETOS
@@ -16,23 +15,13 @@ ARG TARGETPLATFORM
 
 RUN apk add --no-cache \
         build-base \
-	bash \
- 	gcompat \
-	ca-certificates \
         curl \
-	gcc \
- 	mesa-gl \
-  	qt5-qtbase-x11 \
-   	xdg-utils \
-    	xz \
-        wget\
+	gcompat \
        	libffi-dev \
         linux-headers \
         openldap-dev \
         python3-dev \
         py3-pip \
- && wget -nv -O- $CALIBRE_INSTALLER_SOURCE_CODE_URL | python -c "import sys; main=lambda:sys.stderr.write('Download failed\n'); exec(sys.stdin.read()); main(install_dir='/opt', isolated=True)" \
- && rm -rf /tmp/calibre-installer-cache \
  && curl -o \
         /tmp/calibre-web.tar.gz -L \
         https://github.com/nigeldixon/calibre-web/archive/develop.tar.gz \
@@ -46,7 +35,8 @@ RUN apk add --no-cache \
  && chmod +x /usr/bin/kepubify \
  && CALIBRE_RELEASE=$(curl -sX GET "https://api.github.com/repos/kovidgoyal/calibre/releases/latest" \
 	| awk '/tag_name/{print $4;exit}' FS='[""]' | sed 's/^v//g' ) \ 
- && CALIBRE_URL="https://download.calibre-ebook.com/${CALIBRE_RELEASE}/calibre-${CALIBRE_RELEASE}-${TARGETARCH/amd64/x86_64}.txz" \
+ && CALIBRE_URL="https://download.calibre-ebook.com/${CALIBRE_RELEASE}/calibre-${CALIBRE_RELEASE}-arm64.txz" \
+ && echo $CALIBRE_URL \
  && curl -o \
 	/tmp/calibre.txz -L \
 	"$CALIBRE_URL" \
@@ -54,12 +44,17 @@ RUN apk add --no-cache \
         /app/calibre-web \
  && mkdir -p \
         /app/calibre \
- && tar xvf \
+ && tar xf \
         /tmp/calibre-web.tar.gz -C \
         /app/calibre-web --strip-components=1 \
- && tar xvf \
+ && tar xf \
 	/tmp/calibre.txz \
 	-C /app/calibre \
+ && mkdir -p \
+        /app/calibre-web \
+ && tar xf \
+        /tmp/calibre-web.tar.gz -C \
+        /app/calibre-web --strip-components=1 \
  && cd /app/calibre-web \
  && python -m venv $VIRTUAL_ENV \
  && pip install --upgrade pip wheel \
@@ -77,8 +72,15 @@ RUN apk add --no-cache \
         imagemagick \
         libldap \
         libsasl \
-        python3 \
- && echo "$CALIBRE_URL"
+        python3
+
+RUN echo "$CALIBRE_URL"
+
+EXPOSE 8083
+VOLUME /config
+VOLUME /books
+
+ENTRYPOINT ["python", "cps.py"]
 
 RUN echo "$CALIBRE_URL"
 
