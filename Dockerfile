@@ -12,6 +12,7 @@ ARG TARGETARCH
 ARG BUILDPLATFORM
 ARG TARGETPLATFORM
 ARG GLIBCVERSION="2.40"
+ARG GLIBPREFEIX="/usr/glibc-compat"
 
 
 RUN apk add --no-cache \
@@ -34,9 +35,9 @@ RUN apk add --no-cache \
 			| tar zxf - \
 && mkdir -p /glibc-build && cd /glibc-build \
 && "/glibc-${GLIBCVERSION}/configure" \
-			--prefix="$prefix" \
-			--libdir="$prefix/lib" \
-			--libexecdir="$prefix/lib" \
+			--prefix="$GLIBPREFEIX" \
+			--libdir="$GLIBPREFEIX/lib" \
+			--libexecdir="$GLIBPREFEIX/lib" \
 			--enable-stack-protector=strong \	
  && make --jobs=4 && make install \
  && curl -o \
