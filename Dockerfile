@@ -86,11 +86,3 @@ VOLUME /config
 VOLUME /books
 
 ENTRYPOINT ["python", "cps.py"]
-
-RUN echo "$CALIBRE_URL"
-
-EXPOSE 8083
-VOLUME /config
-VOLUME /books
-
-ENTRYPOINT ["python", "cps.py"]
