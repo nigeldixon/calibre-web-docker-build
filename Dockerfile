@@ -28,8 +28,6 @@ RUN apk add --no-cache \
 	musl-dev \
         openldap-dev \
         python3-dev \
-        py3-pip \	
- && make --jobs=4 && make install \
  && curl -o \
         /tmp/calibre-web.tar.gz -L \
         https://github.com/nigeldixon/calibre-web/archive/develop.tar.gz \
