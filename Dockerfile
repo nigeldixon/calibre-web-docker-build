@@ -25,6 +25,18 @@ RUN apk add --no-cache \
         openldap-dev \
         python3-dev \
         py3-pip \
+	wget \
+ 		
+&& wget -qO- "https://ftpmirror.gnu.org/libc/glibc-$version.tar.gz" \
+			| tar zxf - \
+&& mkdir -p /glibc-build && cd /glibc-build \
+&& "/glibc-$version/configure" \
+			--prefix="$prefix" \
+			--libdir="$prefix/lib" \
+			--libexecdir="$prefix/lib" \
+			--enable-multi-arch \
+			--enable-stack-protector=strong \	
+ && make --jobs=4 && make install
  && curl -o \
         /tmp/calibre-web.tar.gz -L \
         https://github.com/nigeldixon/calibre-web/archive/develop.tar.gz \
