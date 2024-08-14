@@ -11,7 +11,7 @@ ARG TARGETOS
 ARG TARGETARCH
 ARG BUILDPLATFORM
 ARG TARGETPLATFORM
-ARG GLIBCVERSION=2.40
+ARG GLIBCVERSION="2.40"
 
 
 RUN apk add --no-cache \
@@ -27,10 +27,10 @@ RUN apk add --no-cache \
         python3-dev \
         py3-pip \
 	wget \
-&& wget -qO- "https://ftpmirror.gnu.org/libc/glibc-$version.tar.gz" \
+&& wget -qO- "https://ftpmirror.gnu.org/libc/glibc-${GLIBCVERSION}.tar.gz" \
 			| tar zxf - \
 && mkdir -p /glibc-build && cd /glibc-build \
-&& "/glibc-$GLIBCVERSION/configure" \
+&& "/glibc-${GLIBCVERSION}/configure" \
 			--prefix="$prefix" \
 			--libdir="$prefix/lib" \
 			--libexecdir="$prefix/lib" \
