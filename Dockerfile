@@ -26,7 +26,6 @@ RUN apk add --no-cache \
         python3-dev \
         py3-pip \
 	wget \
- 		
 && wget -qO- "https://ftpmirror.gnu.org/libc/glibc-$version.tar.gz" \
 			| tar zxf - \
 && mkdir -p /glibc-build && cd /glibc-build \
