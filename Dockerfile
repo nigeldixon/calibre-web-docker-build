@@ -21,6 +21,7 @@ RUN apk add --no-cache \
   	libgcc \
        	libffi-dev \
         linux-headers \
+	muscl-dev \
         openldap-dev \
         python3-dev \
         py3-pip \
@@ -69,12 +70,14 @@ RUN apk add --no-cache \
         openldap-dev \
         python3-dev \
         py3-pip \
+	muscl-dev
  && apk add --no-cache \
         ghostscript \
         imagemagick \
         libldap \
         libsasl \
-        python3
+        python3 \
+	muscl
 
 RUN echo "$CALIBRE_URL"
 
