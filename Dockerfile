@@ -37,7 +37,6 @@ RUN apk add --no-cache \
 			--prefix="$prefix" \
 			--libdir="$prefix/lib" \
 			--libexecdir="$prefix/lib" \
-			--enable-multi-arch \
 			--enable-stack-protector=strong \	
  && make --jobs=4 && make install \
  && curl -o \
