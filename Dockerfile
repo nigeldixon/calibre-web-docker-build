@@ -17,6 +17,7 @@ RUN apk add --no-cache \
         build-base \
         curl \
 	gcompat \
+ 	libstdc++ \
        	libffi-dev \
         linux-headers \
         openldap-dev \
