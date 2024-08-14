@@ -11,6 +11,7 @@ ARG TARGETOS
 ARG TARGETARCH
 ARG BUILDPLATFORM
 ARG TARGETPLATFORM
+ARG GLIBCVERSION=2.40
 
 
 RUN apk add --no-cache \
@@ -29,7 +30,7 @@ RUN apk add --no-cache \
 && wget -qO- "https://ftpmirror.gnu.org/libc/glibc-$version.tar.gz" \
 			| tar zxf - \
 && mkdir -p /glibc-build && cd /glibc-build \
-&& "/glibc-$version/configure" \
+&& "/glibc-$GLIBCVERSION/configure" \
 			--prefix="$prefix" \
 			--libdir="$prefix/lib" \
 			--libexecdir="$prefix/lib" \
@@ -88,7 +89,7 @@ RUN apk add --no-cache \
         libldap \
         libsasl \
         python3 \
-	musl
+        musl
 
 RUN echo "$CALIBRE_URL"
 
