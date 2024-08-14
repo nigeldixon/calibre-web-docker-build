@@ -15,9 +15,11 @@ ARG GLIBCVERSION="2.40"
 
 
 RUN apk add --no-cache \
+        bison \
         build-base \
         curl \
 	gcompat \
+        gawk \
  	libstdc++ \
   	libgcc \
        	libffi-dev \
