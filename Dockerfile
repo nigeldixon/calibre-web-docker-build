@@ -70,7 +70,7 @@ RUN apk add --no-cache \
         openldap-dev \
         python3-dev \
         py3-pip \
-	muscl-dev
+	muscl-dev \
  && apk add --no-cache \
         ghostscript \
         imagemagick \
