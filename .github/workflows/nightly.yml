@@ -17,7 +17,7 @@ jobs:
           jq -r ".[] | select(.name==\"develop\") | .commit.sha" > latest-develop-commit.txt
       - name: Check for modified files
         id: changes
-        uses: UnicornGlobal/has-changes-action@v1.0.11 # https://github.com/marketplace/actions/has-changes
+        run: echo "{modified}={$([ -z "`git status --porcelain`" ] && echo "false" || echo "true")}" >> $GITHUB_OUTPUT
       - name: Process changes
         if: steps.changes.outputs.changed == 1
         run: |
