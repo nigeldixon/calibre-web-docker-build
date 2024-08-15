@@ -9,8 +9,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          token: ${{ github.token }}
       - name: Fetch release version
         run: |
           curl -sL https://api.github.com/repos/nigeldixon/calibre-web/branches | \
