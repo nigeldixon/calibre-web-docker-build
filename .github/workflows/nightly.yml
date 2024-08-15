@@ -15,6 +15,8 @@ jobs:
         run: |
           curl -sL https://api.github.com/repos/nigeldixon/calibre-web/branches | \
           jq -r ".[] | select(.name==\"develop\") | .commit.sha" > latest-develop-commit.txt
+      - name: Force changes
+        run: touch change.temp
       - name: Check for modified files
         id: changes
         uses: UnicornGlobal/has-changes-action@v1.0.11
