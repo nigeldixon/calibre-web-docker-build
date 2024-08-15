@@ -21,7 +21,7 @@ jobs:
       - name: Show if changes
         run: echo "Has changes ${{ steps.changes.outputs.modified }}
       - name: Process changes
-        if: steps.changes.outputs.changed == "true"
+        if: steps.changes.outputs.changed == 'true'
         run: |
           git config --global user.name 'Release Bot'
           git config --global user.email 'releasebot@iamdixon.net'
