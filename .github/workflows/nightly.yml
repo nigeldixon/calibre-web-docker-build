@@ -18,8 +18,10 @@ jobs:
       - name: Check for modified files
         id: changes
         run: echo "{modified}={$([ -z "`git status --porcelain`" ] && echo "false" || echo "true")}" >> $GITHUB_OUTPUT
+      - name: Show if changes
+        run: echo "Has changes ${{ steps.changes.outputs.modified }}
       - name: Process changes
-        if: steps.changes.outputs.changed == 1
+        if: steps.changes.outputs.changed == "true"
         run: |
           git config --global user.name 'Release Bot'
           git config --global user.email 'releasebot@iamdixon.net'
