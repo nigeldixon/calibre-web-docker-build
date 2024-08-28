@@ -10,13 +10,45 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Delete workflow runs
+      - name: Delete nightly workflow runs
         uses: ./ # Uses an action in the root directory
-        id: delete-old-workflow-runs
+        id: delete-old-nightly-workflow-runs
         with:
           repository: nigeldixon/calibre-web-docker-build
           workflow: ".github/workflows/nightly.yml"
           older-than-seconds: 2419200 # 4 weeks in seconds
+          # created-before: "2021-12-08T16:34:00Z"
+          # actor: test@test.com
+          # branch: main
+          # event: push
+          # event: completed
+          # what-if: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Delete cleanup workflow runs
+        uses: ./ # Uses an action in the root directory
+        id: delete-old-cleanup-workflow-runs
+        with:
+          repository: nigeldixon/calibre-web-docker-build
+          workflow: ".github/workflows/cleanoldruns.yml"
+          older-than-seconds: 86400 # 1 day in seconds
+          # created-before: "2021-12-08T16:34:00Z"
+          # actor: test@test.com
+          # branch: main
+          # event: push
+          # event: completed
+          # what-if: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Delete publish workflow runs
+        uses: ./ # Uses an action in the root directory
+        id: delete-publish-workflow-runs
+        with:
+          repository: nigeldixon/calibre-web-docker-build
+          workflow: ".github/workflows/docker-publish.yml"
+          older-than-seconds: 31556952 # 1 year in seconds
           # created-before: "2021-12-08T16:34:00Z"
           # actor: test@test.com
           # branch: main
