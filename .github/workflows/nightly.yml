@@ -14,12 +14,6 @@ jobs:
         run: |
           curl -sL https://api.github.com/repos/nigeldixon/calibre-web/branches | \
           jq -r ".[] | select(.name==\"develop\") | .commit.sha" > latest-develop-commit.txt
-      - name: Force changes
-        run: touch change.temp
-      - name: Current checksum
-        run: cat latest-develop-commit.txt
-      - name: Show has changes
-        run: echo $([ -z "git status --porcelain" ] && echo "0" || echo "1")
       - name: Check for modified files
         id: changes
         run: |
