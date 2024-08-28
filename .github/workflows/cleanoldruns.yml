@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Delete nightly workflow runs
-        uses: ./ # Uses an action in the root directory
+        uses: MajorScruffy/delete-old-workflow-runs@v0.2.0
         id: delete-old-nightly-workflow-runs
         with:
           repository: nigeldixon/calibre-web-docker-build
@@ -29,7 +29,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Delete cleanup workflow runs
-        uses: ./ # Uses an action in the root directory
+        uses: MajorScruffy/delete-old-workflow-runs@v0.2.0
         id: delete-old-cleanup-workflow-runs
         with:
           repository: nigeldixon/calibre-web-docker-build
@@ -45,7 +45,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Delete publish workflow runs
-        uses: ./ # Uses an action in the root directory
+        uses: MajorScruffy/delete-old-workflow-runs@v0.2.0
         id: delete-publish-workflow-runs
         with:
           repository: nigeldixon/calibre-web-docker-build
