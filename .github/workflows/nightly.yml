@@ -6,7 +6,8 @@ on:
 jobs:
   get-version:
     runs-on: ubuntu-latest
-
+    outputs: 
+      needsdeploy: ${{ steps.changes.outputs.modified }}
     steps:
       - uses: actions/checkout@v4
       - name: Fetch release version
@@ -34,3 +35,7 @@ jobs:
           git config --global user.email 'releasebot@iamdixon.net'
           git commit -am "New commits to develop branch"
           git push
+  deploy:
+    needs: get-version
+    if: ${{ needs.get-version.outputs.needsdeploy }} == 1
+    uses: ./.github/workflows/docker-publish.yml
