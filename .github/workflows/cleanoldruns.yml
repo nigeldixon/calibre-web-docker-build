@@ -1,0 +1,27 @@
+on:   
+  schedule:
+    - cron:  '0 00 * * *'  
+
+jobs:
+  delete-workflow-runs:
+    runs-on: ubuntu-latest
+    name: Cleanup old workflow runs
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Delete workflow runs
+        uses: ./ # Uses an action in the root directory
+        id: delete-old-workflow-runs
+        with:
+          repository: nigeldixon/calibre-web-docker-build
+          workflow: ".github/workflows/nightly.yml"
+          older-than-seconds: 2419200 # 4 weeks in seconds
+          # created-before: "2021-12-08T16:34:00Z"
+          # actor: test@test.com
+          # branch: main
+          # event: push
+          # event: completed
+          # what-if: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
