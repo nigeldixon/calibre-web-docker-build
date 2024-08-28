@@ -3,7 +3,7 @@ name: Cleanup old workflow runs
 on:   
   schedule:
     - cron:  '0 00 * * *'  
-
+  workflow_dispatch:
 jobs:
   delete-workflow-runs:
     runs-on: ubuntu-latest
