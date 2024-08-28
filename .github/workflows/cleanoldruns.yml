@@ -1,3 +1,5 @@
+name: Cleanup old workflow runs
+
 on:   
   schedule:
     - cron:  '0 00 * * *'  
