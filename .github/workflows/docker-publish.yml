@@ -1,6 +1,6 @@
 name: Create and publish a Docker image
 on:
-  push:
+  #push:
   workflow_dispatch:
   workflow_call:
 env:
