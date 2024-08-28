@@ -1,0 +1,17 @@
+name: Cleanup nightly packages 
+on:
+  schedule:
+    - cron:  '0 23 * * *'  
+  workflow_dispatch:
+jobs:
+  clean-packages:
+    runs-on: ubuntu-latest
+    name: Cleanup old packages
+    steps:
+      - name: Clean old nightlies
+        uses: actions/delete-package-versions@v5
+        with: 
+          package-name: calibre-web-nd
+          package-type: container
+          min-versions-to-keep: 0
+          delete-only-untagged-versions: true
