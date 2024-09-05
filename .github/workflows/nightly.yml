@@ -29,8 +29,8 @@ jobs:
           git config --global user.name 'Release Bot'
           git config --global user.email 'releasebot@iamdixon.net'
           git commit -am "New commits to develop branch" && modified=1 || modified=0 
-          echo "$modified"
           echo "modified=$modified" >> $GITHUB_OUTPUT
+          echo "$GITHUB_OUTPUT"
           git push
   deploy:
     needs: get-version
