@@ -35,6 +35,7 @@ jobs:
       - name: Show if changes
         run: echo "Has changes ${{ steps.changes.outputs.modified }}"
   deploy:
+    runs-on: ubuntu-latest
     needs: get-version
     steps:
       - name: Show if changes
