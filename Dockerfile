@@ -79,6 +79,7 @@ RUN apk add --no-cache \
         ghostscript \
         imagemagick \
         libldap \
+	libmagic \
         libsasl \
         python3 \
         musl
