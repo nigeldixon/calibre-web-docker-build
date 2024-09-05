@@ -32,6 +32,8 @@ jobs:
           echo "modified=$modified" >> $GITHUB_OUTPUT
           echo "$GITHUB_OUTPUT"
           git push
+      - name: Show if changes
+        run: echo "Has changes ${{ steps.changes.outputs.modified }}"
   deploy:
     needs: get-version
     if: ${{ needs.get-version.outputs.needsdeploy }} == 1
