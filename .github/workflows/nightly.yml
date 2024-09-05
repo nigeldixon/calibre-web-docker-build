@@ -36,5 +36,5 @@ jobs:
         run: echo "Has changes ${{ steps.changes.outputs.modified }}"
   deploy:
     needs: get-version
-    if: ${{ needs.get-version.outputs.needsdeploy }} == "1"
+    if: ${{ needs.get-version.outputs.needsdeploy == "1" }}
     uses: ./.github/workflows/docker-publish.yml
