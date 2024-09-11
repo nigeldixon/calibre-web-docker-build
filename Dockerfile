@@ -14,7 +14,6 @@ ARG TARGETPLATFORM
 ARG GLIBCVERSION="2.40"
 ARG GLIBPREFEIX="/usr/glibc-compat"
 
-
 RUN apk add --no-cache \
         bison \
         build-base \
@@ -83,8 +82,6 @@ RUN apk add --no-cache \
         libsasl \
         python3 \
         musl
-
-RUN echo "$CALIBRE_URL"
 
 EXPOSE 8083
 VOLUME /config
