@@ -11,7 +11,7 @@ jobs:
       - name: Clean old nightlies
         uses: actions/delete-package-versions@v5
         with: 
-          package-name: calibre-web-nd
+          package-name: calibre-web
           package-type: container
           min-versions-to-keep: 0
           delete-only-untagged-versions: true
