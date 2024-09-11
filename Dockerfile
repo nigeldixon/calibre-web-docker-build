@@ -1,4 +1,4 @@
-FROM python:3.12-alpine3.20
+FROM python:alpine3.18
 
 
 ENV VIRTUAL_ENV=/opt/venv
