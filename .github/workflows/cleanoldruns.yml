@@ -50,7 +50,7 @@ jobs:
         with:
           repository: nigeldixon/calibre-web-docker-build
           workflow: ".github/workflows/docker-publish.yml"
-          older-than-seconds: 31556952 # 1 year in seconds
+          older-than-seconds: 31556952 # 1 day in seconds
           # created-before: "2021-12-08T16:34:00Z"
           # actor: test@test.com
           # branch: main
