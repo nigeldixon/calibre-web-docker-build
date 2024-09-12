@@ -28,7 +28,6 @@ RUN apk add --no-cache \
 	musl-dev \
  	qt6-qtbase-dev \
         openldap-dev \
- && ln /usr/bin/qmake6 /usr/bin/qmake \
  && apk add calibre --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing \
  && pip install apsw html5_parser msgpack pyQt6 \
  && curl -o \
