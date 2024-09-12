@@ -17,7 +17,6 @@ ARG GLIBPREFEIX="/usr/glibc-compat"
 RUN apk add --no-cache \
         bison \
         build-base \
-	calibre \
         curl \
 	gcompat \
         gawk \
@@ -27,6 +26,7 @@ RUN apk add --no-cache \
         linux-headers \
 	musl-dev \
         openldap-dev \
+ && apk add calibre --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing
  && curl -o \
         /tmp/calibre-web.tar.gz -L \
         https://github.com/nigeldixon/calibre-web/archive/develop.tar.gz \
