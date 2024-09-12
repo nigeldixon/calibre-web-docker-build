@@ -26,8 +26,6 @@ RUN apk add --no-cache \
         linux-headers \
 	musl-dev \
         openldap-dev \
-        python3-dev \
-	py3-pip \
  && curl -o \
         /tmp/calibre-web.tar.gz -L \
         https://github.com/nigeldixon/calibre-web/archive/develop.tar.gz \
@@ -71,8 +69,6 @@ RUN apk add --no-cache \
         curl \
         linux-headers \
         openldap-dev \
-        python3-dev \
-        py3-pip \
 	musl-dev \
  && apk add --no-cache \
         ghostscript \
