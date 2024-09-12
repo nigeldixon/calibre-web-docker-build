@@ -80,7 +80,6 @@ RUN apk add --no-cache \
         libldap \
 	libmagic \
         libsasl \
-        python3 \
         musl
 
 EXPOSE 8083
