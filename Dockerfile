@@ -53,7 +53,7 @@ RUN apk add --no-cache \
  && tar xf \
 	/tmp/calibre.txz \
 	-C /app/calibre \
- && rm /app/callibre/lib/libpython* \
+ && rm /app/calibre/lib/libpython* \
  && mkdir -p \
         /app/calibre-web \
  && tar xf \
