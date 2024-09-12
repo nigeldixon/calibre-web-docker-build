@@ -23,10 +23,14 @@ RUN apk add --no-cache \
  	libstdc++ \
   	libgcc \
        	libffi-dev \
+	libxml2-dev \
         linux-headers \
 	musl-dev \
+ 	qt6-qtbase-dev \
         openldap-dev \
+ && ln /usr/bin/qmake6 /usr/bin/qmake \
  && apk add calibre --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing \
+ && pip install apsw html5_parser msgpack pyQt6 \
  && curl -o \
         /tmp/calibre-web.tar.gz -L \
         https://github.com/nigeldixon/calibre-web/archive/develop.tar.gz \
@@ -58,9 +62,11 @@ RUN apk add --no-cache \
  && apk del \
         build-base \
         curl \
+	libxml2-dev
         linux-headers \
         openldap-dev \
 	musl-dev \
+ 	qt6-qtbase-dev \
  && apk add --no-cache \
         ghostscript \
         imagemagick \
