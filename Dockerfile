@@ -55,7 +55,7 @@ RUN apk add --no-cache \
         /tmp/calibre-web.tar.gz -C \
         /app/calibre-web --strip-components=1 \
  && cd /app/calibre-web \
- && python -m venv $VIRTUAL_ENV \
+# && python -m venv $VIRTUAL_ENV \
  && pip install --upgrade pip wheel \
  && pip install pipenv \
  && pip install -U --no-cache-dir -r requirements.txt -r optional-requirements.txt \
