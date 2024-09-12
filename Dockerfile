@@ -17,7 +17,7 @@ ARG GLIBPREFEIX="/usr/glibc-compat"
 RUN apk add --no-cache \
         bison \
         build-base \
-	calibre
+	calibre \
         curl \
 	gcompat \
         gawk \
