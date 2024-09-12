@@ -62,7 +62,7 @@ RUN apk add --no-cache \
  && apk del \
         build-base \
         curl \
-	libxml2-dev
+	libxml2-dev \
         linux-headers \
         openldap-dev \
 	musl-dev \
