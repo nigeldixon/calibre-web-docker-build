@@ -23,13 +23,13 @@ RUN apk add --no-cache \
  	libstdc++ \
   	libgcc \
        	libffi-dev \
-	libxml2-dev \
+	#libxml2-dev \
         linux-headers \
-	musl-dev \
- 	qt6-qtbase-dev \
+	#musl-dev \
+ 	#qt6-qtbase-dev \
         openldap-dev \
  && apk add calibre --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing \
- && pip install apsw html5_parser msgpack pyQt6 \
+ #&& pip install apsw html5_parser msgpack pyQt6 \
  && curl -o \
         /tmp/calibre-web.tar.gz -L \
         https://github.com/nigeldixon/calibre-web/archive/develop.tar.gz \
