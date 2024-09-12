@@ -40,7 +40,6 @@ RUN apk add --no-cache \
  && CALIBRE_RELEASE=$(curl -sX GET "https://api.github.com/repos/kovidgoyal/calibre/releases/latest" \
 	| awk '/tag_name/{print $4;exit}' FS='[""]' | sed 's/^v//g' ) \ 
  && CALIBRE_URL="https://download.calibre-ebook.com/${CALIBRE_RELEASE}/calibre-${CALIBRE_RELEASE}-arm64.txz" \
- && echo $CALIBRE_URL \
  && curl -o \
 	/tmp/calibre.txz -L \
 	"$CALIBRE_URL" \
@@ -54,6 +53,7 @@ RUN apk add --no-cache \
  && tar xf \
 	/tmp/calibre.txz \
 	-C /app/calibre \
+ && rm /app/callibre/lib/libpython*
  && mkdir -p \
         /app/calibre-web \
  && tar xf \
