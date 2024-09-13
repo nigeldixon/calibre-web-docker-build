@@ -4,7 +4,7 @@ FROM python:3.12-alpine
 ENV VIRTUAL_ENV=/opt/venv
 WORKDIR /app/calibre-web
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
-ENV PYTHONPATH="/usr/lib/python3.12/site-packages:$PYTHONPATH"
+ENV PYTHONPATH="/usr/lib/python3.12/site-packages"
 
 ENV CALIBRE_DBPATH=/config
 
