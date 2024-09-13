@@ -32,6 +32,7 @@ RUN apk add --no-cache \
   	qt6-qtsvg \
    	qt6-qtimageformats \
         openldap-dev \
+	zstd \
  && apk add calibre --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing \
  #&& export PYTHONPATH=/usr/lib/python3.12/site-packages:$PYTHONPATH \
  #&& pip install apsw html5_parser msgpack pyQt6 \
