@@ -58,7 +58,7 @@ RUN apk add --no-cache \
 # && python -m venv $VIRTUAL_ENV \
  && pip install --upgrade pip wheel \
  && pip install pipenv \
- && pip install -U --no-cache-dir -r requirements.txt -r optional-requirements.txt \
+ && pip install --no-cache-dir -r requirements.txt -r optional-requirements.txt \
  && apk del \
         build-base \
         curl \
