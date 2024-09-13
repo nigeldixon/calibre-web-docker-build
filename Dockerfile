@@ -4,6 +4,7 @@ FROM python:3.12-alpine
 ENV VIRTUAL_ENV=/opt/venv
 WORKDIR /app/calibre-web
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+ENV PYTHONPATH="/usr/lib/python3.12/site-packages:$PYTHONPATH"
 
 ENV CALIBRE_DBPATH=/config
 
@@ -29,7 +30,7 @@ RUN apk add --no-cache \
  	#qt6-qtbase-dev \
         openldap-dev \
  && apk add calibre --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing \
- && export PYTHONPATH=/usr/lib/python3.12/site-packages:$PYTHONPATH \
+ #&& export PYTHONPATH=/usr/lib/python3.12/site-packages:$PYTHONPATH \
  #&& pip install apsw html5_parser msgpack pyQt6 \
  && curl -o \
         /tmp/calibre-web.tar.gz -L \
