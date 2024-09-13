@@ -27,9 +27,9 @@ RUN apk add --no-cache \
 	#libxml2-dev \
         linux-headers \
 	#musl-dev \
- 	qt6-webengine \
-  	qt6-svg \
-   	qt6-imageformats \
+ 	qt6-qtwebengine \
+  	qt6-qtsvg \
+   	qt6-qtimageformats \
         openldap-dev \
  && apk add calibre --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing \
  #&& export PYTHONPATH=/usr/lib/python3.12/site-packages:$PYTHONPATH \
