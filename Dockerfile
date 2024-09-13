@@ -27,7 +27,7 @@ RUN apk add --no-cache \
 	#libxml2-dev \
         linux-headers \
 	#musl-dev \
- 	qt6-qtbase-devel \
+ 	qt6-qtbase-dev \
  	qt6-qtwebengine \
   	qt6-qtsvg \
    	qt6-qtimageformats \
