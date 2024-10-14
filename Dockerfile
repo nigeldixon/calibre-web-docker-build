@@ -23,6 +23,7 @@ RUN apk add --no-cache \
         gawk \
  	libstdc++ \
   	libgcc \
+   	libjpeg \
        	libffi-dev \
 	libxml2-dev \
         linux-headers \
@@ -32,6 +33,7 @@ RUN apk add --no-cache \
   	qt6-qtsvg \
    	qt6-qtimageformats \
         openldap-dev \
+	zlib \
 	zstd \
  && apk add calibre --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing \
  #&& export PYTHONPATH=/usr/lib/python3.12/site-packages:$PYTHONPATH \
