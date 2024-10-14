@@ -24,9 +24,9 @@ RUN apk add --no-cache \
  	libstdc++ \
   	libgcc \
        	libffi-dev \
-	#libxml2-dev \
+	libxml2-dev \
         linux-headers \
-	#musl-dev \
+	musl-dev \
  	qt6-qtbase-dev \
  	qt6-qtwebengine \
   	qt6-qtsvg \
