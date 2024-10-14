@@ -77,6 +77,7 @@ RUN apk add --no-cache \
  && apk add --no-cache \
         ghostscript \
         imagemagick \
+	qt6-qtbase \
         libldap \
 	libmagic \
         libsasl \
