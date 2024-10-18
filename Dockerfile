@@ -3,7 +3,14 @@ FROM ubuntu:noble
 ENV VIRTUAL_ENV=/opt/venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
+ARG TARGETOS
+ARG TARGETARCH
+ARG BUILDPLATFORM
+ARG TARGETPLATFORM
+
 RUN \
+  echo "##### target arch= ${TARGETARCH}"
+  echo "##### target platform = ${TARGETPLATFORM}"
   apt-get update && \
   echo "**** build dependencies ****" && \
   apt-get install -y --no-install-recommends \
