@@ -42,7 +42,7 @@ RUN \
     /app/calibre-web --strip-components=1 && \
   cd /app/calibre-web && \
   python3 -m venv .venv && \
-  source ./.venv/bin/activate && \
+  ./.venv/bin/activate && \
   pip install -U --no-cache-dir \
     pip \
     wheel && \
