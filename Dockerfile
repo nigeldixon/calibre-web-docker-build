@@ -4,7 +4,7 @@ RUN \
   apt-get update && \
   echo "**** build dependencies ****" && \
   apt-get install -y --no-install-recommends \
-    build-essentials \
+    build-essential \
     libldap2-dev \
     libsasl2-dev \
     python3-dev && \
