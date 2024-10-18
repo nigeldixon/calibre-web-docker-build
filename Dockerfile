@@ -11,8 +11,9 @@ RUN \
     curl \
     libldap2-dev \
     libsasl2-dev \
+    pipx \
     python3-dev \
-    python3-pip && \
+     && \
   echo "**** runtime dependencies ****" && \
   apt-get install -y --no-install-recommends \
     imagemagick \
@@ -41,10 +42,10 @@ RUN \
     /app/calibre-web --strip-components=1 && \
   cd /app/calibre-web && \
   python3 -m venv /calibre-web-python-venv && \
-  pip install -U --no-cache-dir \
-    pip \
+  pipx install -U --no-cache-dir \
+    pipx \
     wheel && \
-  pip install -U --no-cache-dir --find-links https://wheel-index.linuxserver.io/ubuntu/ -r \
+  pipx install -U --no-cache-dir --find-links https://wheel-index.linuxserver.io/ubuntu/ -r \
     requirements.txt -r \
     optional-requirements.txt && \
   echo "**** install KEPUBIFY ****" && \
