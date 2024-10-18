@@ -40,7 +40,7 @@ RUN \
   mkdir -p /app/calibre && \
   curl -o \
 	  /tmp/calibre.txz -L \
-	  "https://github.com/kovidgoyal/calibre/releases/download/v${CALIBRE_RELEASE}/calibre-${CALIBRE_RELEASE}-x86_64.txz" && \
+	  "https://github.com/kovidgoyal/calibre/releases/download/v${CALIBRE_RELEASE}/calibre-${CALIBRE_RELEASE}-${TARGETARCH}.txz" && \
   tar xf \
 	  /tmp/calibre.txz \
 	  -C /app/calibre
