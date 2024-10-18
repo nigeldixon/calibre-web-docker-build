@@ -41,14 +41,14 @@ RUN \
     /tmp/calibre-web.tar.gz -C \
     /app/calibre-web --strip-components=1 && \
   cd /app/calibre-web && \
-  python3 -m venv /calibre-web-python-venv && \
-  pipx ensurepath && \
-  pipx install \
+  python3 -m venv .venv && \
+  source ./.venv/bin/activate && \
+  pip install -U --no-cache-dir \
+    pip \
     wheel && \
-  pipx install \
-    -r -f requirements.txt && \
-  pipx install \
-    -r -f optional-requirements.txt && \
+  pip install -U --no-cache-dir --find-links https://wheel-index.linuxserver.io/ubuntu/ -r \
+    requirements.txt -r \
+    optional-requirements.txt && \
   echo "**** install KEPUBIFY ****" && \
   if [ -z ${KEPUBIFY_RELEASE+x} ]; then \
     KEPUBIFY_RELEASE=$(curl -sX GET "https://api.github.com/repos/pgaskin/kepubify/releases/latest" \
