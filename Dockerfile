@@ -5,6 +5,7 @@ RUN \
   echo "**** build dependencies ****" && \
   apt-get install -y --no-install-recommends \
     build-essential \
+    curl \
     libldap2-dev \
     libsasl2-dev \
     python3-dev && \
