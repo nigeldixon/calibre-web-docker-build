@@ -41,10 +41,7 @@ RUN \
   mkdir -p /app/calibre && \
   curl -o \
 	  /tmp/calibre.txz -L \
-	  "https://github.com/kovidgoyal/calibre/releases/download/v${CALIBRE_RELEASE}/calibre-${CALIBRE_RELEASE}-${TARGETARCH}.txz" && \
-  tar xf \
-	  /tmp/calibre.txz \
-	  -C /app/calibre
+	  "https://github.com/kovidgoyal/calibre/releases/download/v${CALIBRE_RELEASE}/calibre-${CALIBRE_RELEASE}-${TARGETARCH}.txz"
 
 EXPOSE 8083
 
