@@ -86,7 +86,7 @@ RUN \
     /var/lib/apt/lists/* \
     /var/tmp/* \
     /root/.cache
-    
+
 EXPOSE 8083
 
 VOLUME /config
