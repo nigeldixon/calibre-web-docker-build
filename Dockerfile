@@ -58,7 +58,7 @@ RUN \
     https://github.com/pgaskin/kepubify/releases/download/${KEPUBIFY_RELEASE}/kepubify-linux-${TARGETARCH} && \
   echo "**** cleanup ****" && \
   apt-get -y purge \
-    build-essentials \
+    build-essential \
     libldap2-dev \
     libsasl2-dev \
     python3-dev && \
