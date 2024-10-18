@@ -25,8 +25,19 @@ RUN \
     libxslt1.1 \
     python3-full \
     unrar \
-    xdg-utils && \
+    xdg-utils \
+    xz-utils \
+    && \
   echo "**** install CALIBRE ****" && \
+  CALIBRE_RELEASE=$(curl -sX GET "https://api.github.com/repos/kovidgoyal/calibre/releases/latest" \
+	 | awk '/tag_name/{print $4;exit}' FS='[""]' | sed 's/^v//g' ) && \ 
+  mkdir -p /app/calibre && \
+  curl -o \
+	  /tmp/calibre.txz -L \
+	  "https://github.com/kovidgoyal/calibre/releases/download/v${CALIBRE_RELEASE}/calibre-${CALIBRE_RELEASE}-x86_64.txz" && \
+  tar xf \
+	  /tmp/calibre.txz \
+	  -C /app/calibre
   echo "**** install CALIBRE-WEB ****" && \
   if [ -z ${CALIBREWEB_RELEASE+x} ]; then \
     CALIBREWEB_RELEASE=$(curl -sX GET "https://api.github.com/repos/janeczku/calibre-web/releases/latest" \
