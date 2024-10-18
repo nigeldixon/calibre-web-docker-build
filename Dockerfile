@@ -41,7 +41,7 @@ RUN \
   mkdir -p /app/calibre && \
   curl -o \
 	  /tmp/calibre.txz -L \
-	  "https://github.com/kovidgoyal/calibre/releases/download/v${CALIBRE_RELEASE}/calibre-${CALIBRE_RELEASE}-${TARGETARCH}.txz" && \
+	  "https://github.com/kovidgoyal/calibre/releases/download/v${CALIBRE_RELEASE}/calibre-${CALIBRE_RELEASE}-${TARGETARCH/amd/x86_}.txz" && \
   tar xf \
 	  /tmp/calibre.txz \
 	  -C /app/calibre && \
@@ -73,19 +73,7 @@ RUN \
   fi && \
   curl -o \
     /usr/bin/kepubify -L \
-    https://github.com/pgaskin/kepubify/releases/download/${KEPUBIFY_RELEASE}/kepubify-linux-${TARGETARCH} && \
-  echo "**** cleanup ****" && \
-  apt-get -y purge \
-    build-essential \
-    libldap2-dev \
-    libsasl2-dev \
-    python3-dev && \
-  apt-get -y autoremove && \
-  rm -rf \
-    /tmp/* \
-    /var/lib/apt/lists/* \
-    /var/tmp/* \
-    /root/.cache
+    https://github.com/pgaskin/kepubify/releases/download/${KEPUBIFY_RELEASE}/kepubify-linux-${TARGETARCH}
 
 EXPOSE 8083
 
