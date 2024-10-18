@@ -41,8 +41,7 @@ RUN \
     /tmp/calibre-web.tar.gz -C \
     /app/calibre-web --strip-components=1 && \
   cd /app/calibre-web && \
-  python3 -m venv .venv && \
-  ./.venv/bin/activate && \
+  python3 -m venv "$VIRTUAL_ENV" && \
   pip install -U --no-cache-dir \
     pip \
     wheel && \
