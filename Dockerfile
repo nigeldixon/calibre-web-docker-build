@@ -7,7 +7,7 @@ RUN \
     build-essentials \
     libldap2-dev \
     libsasl2-dev \
-    python3-dev \
+    python3-dev && \
   echo "**** runtime dependencies ****" && \
   apt-get install -y --no-install-recommends \
     imagemagick \
