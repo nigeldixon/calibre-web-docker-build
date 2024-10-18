@@ -8,9 +8,10 @@ ARG TARGETARCH
 ARG BUILDPLATFORM
 ARG TARGETPLATFORM
 
+RUN echo "##### target arch= ${TARGETARCH}"
+RUN echo "##### target platform = ${TARGETPLATFORM}"
 RUN \
-  echo "##### target arch= ${TARGETARCH}"
-  echo "##### target platform = ${TARGETPLATFORM}"
+
   apt-get update && \
   echo "**** build dependencies ****" && \
   apt-get install -y --no-install-recommends \
