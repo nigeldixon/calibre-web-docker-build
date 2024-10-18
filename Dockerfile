@@ -1,36 +1,27 @@
-# syntax=docker/dockerfile:1
-
-FROM ghcr.io/linuxserver/unrar:latest AS unrar
-
-FROM ghcr.io/linuxserver/baseimage-ubuntu:jammy
-
-# set version label
-ARG BUILD_DATE
-ARG VERSION
-ARG CALIBREWEB_RELEASE
-LABEL build_version="Linuxserver.io version:- ${VERSION} Build-date:- ${BUILD_DATE}"
-LABEL maintainer="notdriz"
+FROM ubuntu:noble
 
 RUN \
-  echo "**** install build packages ****" && \
   apt-get update && \
+  echo "**** build dependencies ****" && \
   apt-get install -y --no-install-recommends \
-    build-essential \
+    build-essentials \
     libldap2-dev \
     libsasl2-dev \
-    python3-dev && \
-  echo "**** install runtime packages ****" && \
+    python3-dev \
+  echo "**** runtime dependencies ****" && \
   apt-get install -y --no-install-recommends \
     imagemagick \
     ghostscript \
-    libldap-2.5-0 \
+    libldap-2.5.0 \
     libmagic1 \
     libsasl2-2 \
     libxi6 \
     libxslt1.1 \
     python3-venv \
+    unrar \
     xdg-utils && \
-  echo "**** install calibre-web ****" && \
+  echo "**** install CALIBRE ****" && \
+  echo "**** install CALIBRE-WEB ****" && \
   if [ -z ${CALIBREWEB_RELEASE+x} ]; then \
     CALIBREWEB_RELEASE=$(curl -sX GET "https://api.github.com/repos/janeczku/calibre-web/releases/latest" \
     | awk '/tag_name/{print $4;exit}' FS='[""]'); \
@@ -44,36 +35,24 @@ RUN \
     /tmp/calibre-web.tar.gz -C \
     /app/calibre-web --strip-components=1 && \
   cd /app/calibre-web && \
-  python3 -m venv /lsiopy && \
+  python3 -m venv /calibre-web-python-venv && \
   pip install -U --no-cache-dir \
     pip \
     wheel && \
   pip install -U --no-cache-dir --find-links https://wheel-index.linuxserver.io/ubuntu/ -r \
     requirements.txt -r \
     optional-requirements.txt && \
-  echo "***install kepubify" && \
+  echo "**** install KEPUBIFY ****" && \
   if [ -z ${KEPUBIFY_RELEASE+x} ]; then \
     KEPUBIFY_RELEASE=$(curl -sX GET "https://api.github.com/repos/pgaskin/kepubify/releases/latest" \
     | awk '/tag_name/{print $4;exit}' FS='[""]'); \
   fi && \
   curl -o \
     /usr/bin/kepubify -L \
-    https://github.com/pgaskin/kepubify/releases/download/${KEPUBIFY_RELEASE}/kepubify-linux-64bit && \
- && CALIBRE_RELEASE=$(curl -sX GET "https://api.github.com/repos/kovidgoyal/calibre/releases/latest" \
-	| awk '/tag_name/{print $4;exit}' FS='[""]' | sed 's/^v//g' ) \ 
- && CALIBRE_URL="https://download.calibre-ebook.com/${CALIBRE_RELEASE}/calibre-${CALIBRE_RELEASE}-arm64.txz" \
- && curl -o \
-	/tmp/calibre.txz -L \
-	"$CALIBRE_URL" \
- && mkdir -p \
-        /app/calibre \
- && tar xf \
-	/tmp/calibre.txz \
-	-C /app/calibre \
- 
+    https://github.com/pgaskin/kepubify/releases/download/${KEPUBIFY_RELEASE}/kepubify-linux-${TARGETARCH} && \
   echo "**** cleanup ****" && \
   apt-get -y purge \
-    build-essential \
+    build-essentials \
     libldap2-dev \
     libsasl2-dev \
     python3-dev && \
@@ -83,13 +62,12 @@ RUN \
     /var/lib/apt/lists/* \
     /var/tmp/* \
     /root/.cache
-
-# add local files
-COPY root/ /
-
-# add unrar
-COPY --from=unrar /usr/bin/unrar-ubuntu /usr/bin/unrar
-
-# ports and volumes
+    
 EXPOSE 8083
+
 VOLUME /config
+VOLUME /books
+
+WORKDIR /app/calibre-web
+
+ENTRYPOINT ["python", "cps.py"]
