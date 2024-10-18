@@ -8,7 +8,8 @@ RUN \
     curl \
     libldap2-dev \
     libsasl2-dev \
-    python3-dev && \
+    python3-dev \
+    python3-pip && \
   echo "**** runtime dependencies ****" && \
   apt-get install -y --no-install-recommends \
     imagemagick \
