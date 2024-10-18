@@ -34,7 +34,17 @@ RUN \
     xdg-utils \
     xz-utils \
     && \
-  echo "**** install CALIBRE ****"
+  echo "**** install CALIBRE ****" && \
+  CALIBRE_RELEASE=$(curl -sX GET "https://api.github.com/repos/kovidgoyal/calibre/releases/latest" \
+	 | awk '/tag_name/{print $4;exit}' FS='[""]' | sed 's/^v//g' ) && \ 
+  CALIBRE_VERSION="$(echo ${CALIBRE_RELEASE} | cut -c2-)" && \
+  mkdir -p /app/calibre && \
+  curl -o \
+	  /tmp/calibre.txz -L \
+	  "https://github.com/kovidgoyal/calibre/releases/download/v${CALIBRE_RELEASE}/calibre-${CALIBRE_RELEASE}-${TARGETARCH/amd/x86_}.txz" && \
+  tar xf \
+	  /tmp/calibre.txz \
+	  -C /app/calibre
 
 EXPOSE 8083
 
