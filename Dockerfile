@@ -1,5 +1,8 @@
 FROM ubuntu:noble
 
+ENV VIRTUAL_ENV=/opt/venv
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
 RUN \
   apt-get update && \
   echo "**** build dependencies ****" && \
@@ -19,7 +22,7 @@ RUN \
     libsasl2-2 \
     libxi6 \
     libxslt1.1 \
-    python3-venv \
+    python3-full \
     unrar \
     xdg-utils && \
   echo "**** install CALIBRE ****" && \
