@@ -43,7 +43,7 @@ RUN \
 	  "https://github.com/kovidgoyal/calibre/releases/download/v${CALIBRE_RELEASE}/calibre-${CALIBRE_RELEASE}-${TARGETARCH}.txz" && \
   tar xf \
 	  /tmp/calibre.txz \
-	  -C /app/calibre
+	  -C /app/calibre && \
   echo "**** install CALIBRE-WEB ****" && \
   if [ -z ${CALIBREWEB_RELEASE+x} ]; then \
     CALIBREWEB_RELEASE=$(curl -sX GET "https://api.github.com/repos/janeczku/calibre-web/releases/latest" \
