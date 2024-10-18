@@ -42,10 +42,10 @@ RUN \
     /app/calibre-web --strip-components=1 && \
   cd /app/calibre-web && \
   python3 -m venv /calibre-web-python-venv && \
-  pipx install -U --no-cache-dir \
+  pipx install \
     pipx \
     wheel && \
-  pipx install -U --no-cache-dir --find-links https://wheel-index.linuxserver.io/ubuntu/ -r \
+  pipx install --find-links https://wheel-index.linuxserver.io/ubuntu/ -r \
     requirements.txt -r \
     optional-requirements.txt && \
   echo "**** install KEPUBIFY ****" && \
