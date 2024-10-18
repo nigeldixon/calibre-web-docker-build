@@ -46,8 +46,9 @@ RUN \
   pipx install \
     wheel && \
   pipx install \
-    requirements.txt -r \
-    optional-requirements.txt && \
+    -r -f requirements.txt && \
+  pipx install \
+    -r -f optional-requirements.txt && \
   echo "**** install KEPUBIFY ****" && \
   if [ -z ${KEPUBIFY_RELEASE+x} ]; then \
     KEPUBIFY_RELEASE=$(curl -sX GET "https://api.github.com/repos/pgaskin/kepubify/releases/latest" \
