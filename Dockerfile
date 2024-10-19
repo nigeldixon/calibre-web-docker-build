@@ -37,7 +37,6 @@ RUN \
   echo "**** install CALIBRE ****" && \
   CALIBRE_RELEASE=$(curl -sX GET "https://api.github.com/repos/kovidgoyal/calibre/releases/latest" \
 	 | awk '/tag_name/{print $4;exit}' FS='[""]' | sed 's/^v//g' ) && \ 
-  CALIBRE_VERSION="$(echo ${CALIBRE_RELEASE} | cut -c2-)" && \
   mkdir -p /app/calibre && \
   curl -o \
 	  /tmp/calibre.txz -L \
