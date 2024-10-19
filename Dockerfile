@@ -7,12 +7,13 @@ ARG TARGETOS
 ARG TARGETARCH
 ARG BUILDPLATFORM
 ARG TARGETPLATFORM
+ARG APTVERBOSITY="-qq"
 
 RUN \
 
   apt-get update && \
   echo "**** build dependencies ****" && \
-  apt-get install -y --no-install-recommends \
+  apt-get ${APTVERBOSITY} install -y --no-install-recommends \
     build-essential \
     curl \
     libldap2-dev \
@@ -21,7 +22,7 @@ RUN \
     python3-dev \
      && \
   echo "**** runtime dependencies ****" && \
-  apt-get install -y --no-install-recommends \
+  apt-get ${APTVERBOSITY} install -y --no-install-recommends \
     imagemagick \
     ghostscript \
     libldap2 \
