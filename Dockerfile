@@ -13,7 +13,7 @@ RUN \
 
   apt-get update && \
   echo "**** build dependencies ****" && \
-  apt-get ${APTVERBOSITY} install -y --no-install-recommends \
+  apt-get -qq ${APTVERBOSITY} install -y --no-install-recommends \
     build-essential \
     curl \
     libldap2-dev \
@@ -22,7 +22,7 @@ RUN \
     python3-dev \
      && \
   echo "**** runtime dependencies ****" && \
-  apt-get ${APTVERBOSITY} install -y --no-install-recommends \
+  apt-get -qq ${APTVERBOSITY} install -y --no-install-recommends \
     imagemagick \
     ghostscript \
     libldap2 \
@@ -60,10 +60,10 @@ RUN \
     /app/calibre-web --strip-components=1 && \
   cd /app/calibre-web && \
   python3 -m venv "$VIRTUAL_ENV" && \
-  pip install -U --quiet --no-cache-dir \
+  pip install -q -U --quiet --no-cache-dir \
     pip \
     wheel && \
-  pip install -U --quiet --no-cache-dir --find-links https://wheel-index.linuxserver.io/ubuntu/ -r \
+  pip install -q -U --quiet --no-cache-dir --find-links https://wheel-index.linuxserver.io/ubuntu/ -r \
     requirements.txt -r \
     optional-requirements.txt && \
   echo "**** install KEPUBIFY ****" && \
