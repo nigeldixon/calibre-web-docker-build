@@ -60,10 +60,10 @@ RUN \
     /app/calibre-web --strip-components=1 && \
   cd /app/calibre-web && \
   python3 -m venv "$VIRTUAL_ENV" && \
-  pip install -U --no-cache-dir \
+  pip install -U --quiet --no-cache-dir \
     pip \
     wheel && \
-  pip install -U --no-cache-dir --find-links https://wheel-index.linuxserver.io/ubuntu/ -r \
+  pip install -U --quiet --no-cache-dir --find-links https://wheel-index.linuxserver.io/ubuntu/ -r \
     requirements.txt -r \
     optional-requirements.txt && \
   echo "**** install KEPUBIFY ****" && \
