@@ -94,4 +94,4 @@ VOLUME /books
 
 WORKDIR /app/calibre-web
 
-ENTRYPOINT ["python", "cps.py"]
+ENTRYPOINT ["python3", "cps.py"]
