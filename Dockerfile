@@ -1,98 +1,90 @@
-FROM ubuntu:noble
+FROM python:3.12-alpine
+
 
 ENV VIRTUAL_ENV=/opt/venv
+WORKDIR /app/calibre-web
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+ENV PYTHONPATH="/usr/lib/python3.12/site-packages:$PYTHONPATH"
+
+ENV CALIBRE_DBPATH=/config
 
 ARG TARGETOS
 ARG TARGETARCH
 ARG BUILDPLATFORM
 ARG TARGETPLATFORM
-ARG APTVERBOSITY="-qq"
+ARG GLIBCVERSION="2.40"
+ARG GLIBPREFEIX="/usr/glibc-compat"
 
-RUN \
+RUN apk add --no-cache \
+        bison \
+        build-base \
+        curl \
+	gcompat \
+        gawk \
+ 	libstdc++ \
+  	libgcc \
+   	libjpeg \
+       	libffi-dev \
+	libxml2-dev \
+        linux-headers \
+	musl-dev \
+ 	qt6-qtbase-dev \
+ 	qt6-qtwebengine \
+  	qt6-qtsvg \
+   	qt6-qtimageformats \
+        openldap-dev \
+	zlib \
+	zstd \
+ && apk add calibre --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing \
+ #&& export PYTHONPATH=/usr/lib/python3.12/site-packages:$PYTHONPATH \
+ #&& pip install apsw html5_parser msgpack pyQt6 \
+ && curl -o \
+        /tmp/calibre-web.tar.gz -L \
+        https://github.com/nigeldixon/calibre-web/archive/develop.tar.gz \
+ && if [ -z ${KEPUBIFY_RELEASE+x} ]; then \
+        KEPUBIFY_RELEASE=$(curl -sX GET "https://api.github.com/repos/pgaskin/kepubify/releases/latest" \
+        | awk '/tag_name/{print $4;exit}' FS='[""]'); \
+ fi \
+ && curl -o \
+        /usr/bin/kepubify -L \
+        https://github.com/pgaskin/kepubify/releases/download/${KEPUBIFY_RELEASE}/kepubify-linux-${TARGETARCH} \
+ && chmod +x /usr/bin/kepubify \
+ && CALIBRE_RELEASE=$(curl -sX GET "https://api.github.com/repos/kovidgoyal/calibre/releases/latest" \
+	| awk '/tag_name/{print $4;exit}' FS='[""]' | sed 's/^v//g' ) \ 
+ && mkdir -p \
+        /app/calibre-web \
+ && tar xf \
+        /tmp/calibre-web.tar.gz -C \
+        /app/calibre-web --strip-components=1 \
+ && mkdir -p \
+        /app/calibre-web \
+ && tar xf \
+        /tmp/calibre-web.tar.gz -C \
+        /app/calibre-web --strip-components=1 \
+ && cd /app/calibre-web \
+# && python -m venv $VIRTUAL_ENV \
+ && pip install --upgrade pip wheel \
+ && pip install pipenv \
+ && pip install --no-cache-dir -r requirements.txt -r optional-requirements.txt \
+ && apk del \
+        build-base \
+        curl \
+	libxml2-dev \
+        linux-headers \
+        openldap-dev \
+	musl-dev \
+ 	qt6-qtbase-dev \
+ && apk add --no-cache \
+        ghostscript \
+        imagemagick \
+	qt6-qtbase \
+        libldap \
+	libmagic \
+        libsasl \
+        musl
 
-  apt-get update && \
-  echo "**** build dependencies ****" && \
-  apt-get -qq ${APTVERBOSITY} install -y --no-install-recommends \
-    build-essential \
-    curl \
-    libldap2-dev \
-    libsasl2-dev \
-    pipx \
-    python3-dev \
-     && \
-  echo "**** runtime dependencies ****" && \
-  apt-get -qq ${APTVERBOSITY} install -y --no-install-recommends \
-    imagemagick \
-    ghostscript \
-    libldap2 \
-    libmagic1 \
-    libsasl2-2 \
-    libxi6 \
-    libxslt1.1 \
-    python3-full \
-    unrar \
-    xdg-utils \
-    xz-utils \
-    && \
-  echo "**** install CALIBRE ****" && \
-#  CALIBRE_RELEASE=$(curl -sX GET "https://api.github.com/repos/kovidgoyal/calibre/releases/latest" \
-#	 | awk '/tag_name/{print $4;exit}' FS='[""]' | sed 's/^v//g' ) && \ 
-#  mkdir -p /app/calibre && \
-#  curl -o \
-#	  /tmp/calibre.txz -L \
-#	  "https://github.com/kovidgoyal/calibre/releases/download/v${CALIBRE_RELEASE}/calibre-${CALIBRE_RELEASE}-${TARGETARCH}.txz" && \
-#   tar xf \
-#	  /tmp/calibre.txz \
-#	  -C /app/calibre && \
-  echo "**** install CALIBRE-WEB ****" && \
-  if [ -z ${CALIBREWEB_RELEASE+x} ]; then \
-    CALIBREWEB_RELEASE=$(curl -sX GET "https://api.github.com/repos/janeczku/calibre-web/releases/latest" \
-    | awk '/tag_name/{print $4;exit}' FS='[""]'); \
-  fi && \
-  curl -o \
-    /tmp/calibre-web.tar.gz -L \
-    https://github.com/janeczku/calibre-web/archive/${CALIBREWEB_RELEASE}.tar.gz && \
-  mkdir -p \
-    /app/calibre-web && \
-  tar xf \
-    /tmp/calibre-web.tar.gz -C \
-    /app/calibre-web --strip-components=1 && \
-  cd /app/calibre-web && \
-  python3 -m venv "$VIRTUAL_ENV" && \
-  pip install -q -U --quiet --no-cache-dir \
-    pip \
-    wheel && \
-  pip install -q -U --quiet --no-cache-dir --find-links https://wheel-index.linuxserver.io/ubuntu/ -r \
-    requirements.txt -r \
-    optional-requirements.txt && \
-  echo "**** install KEPUBIFY ****" && \
-  if [ -z ${KEPUBIFY_RELEASE+x} ]; then \
-    KEPUBIFY_RELEASE=$(curl -sX GET "https://api.github.com/repos/pgaskin/kepubify/releases/latest" \
-    | awk '/tag_name/{print $4;exit}' FS='[""]'); \
-  fi && \
-  curl -o \
-    /usr/bin/kepubify -L \
-    https://github.com/pgaskin/kepubify/releases/download/${KEPUBIFY_RELEASE}/kepubify-linux-${TARGETARCH} && \
-  echo "**** cleanup ****" && \
-  apt-get -y purge \
-    build-essential \
-    libldap2-dev \
-    libsasl2-dev \
-    python3-dev && \
-  apt-get -y autoremove && \
-  rm -rf \
-    /tmp/* \
-    /var/lib/apt/lists/* \
-    /var/tmp/* \
-    /root/.cache
-
-  
 EXPOSE 8083
-
 VOLUME /config
 VOLUME /books
 
-WORKDIR /app/calibre-web
-
-ENTRYPOINT ["python3", "cps.py"]
+ENTRYPOINT ["python", "cps.py"]
