@@ -8,6 +8,15 @@ ENV VIRTUAL_ENV=/opt/venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 #ENV PYTHONPATH="$VIRTUAL_ENV:$PYTHONPATH"
 
+EXPOSE 8083
+
+VOLUME /config
+VOLUME /books
+
+WORKDIR /app/calibre-web
+
+ENTRYPOINT ["python3", "cps.py"]
+
 RUN \
   apt-get -q update && \
   echo "**** BUILD DEPS ****" && \
@@ -111,11 +120,4 @@ RUN \
     /root/.cache
 
 
-EXPOSE 8083
 
-VOLUME /config
-VOLUME /books
-
-WORKDIR /app/calibre-web
-
-ENTRYPOINT ["python3", "cps.py"]
