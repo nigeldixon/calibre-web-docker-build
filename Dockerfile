@@ -38,6 +38,7 @@ RUN \
     dbus \
     fcitx-rime \
     fonts-wqy-microhei \
+    libmagic \
     libnss3 \
     libopengl0 \
     libqpdf29t64 \
