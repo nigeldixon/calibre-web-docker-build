@@ -46,6 +46,9 @@ EXPOSE 8083
 
 VOLUME /config
 VOLUME /books
+VOLUME /c2e_comics
+VOLUME /c2e_manga
+VOLUME /calibredrop
 
 WORKDIR /app/calibre-web
 
