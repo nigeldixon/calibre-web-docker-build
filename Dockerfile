@@ -120,13 +120,10 @@ RUN \
   chmod +x /usr/bin/kepubify && \
   echo "[[ DONE ]]" && \
   echo "**** INSTALL CALIBRE-WEB ****" && \
-  if [ -z ${CALIBREWEB_RELEASE+x} ]; then \
-    CALIBREWEB_RELEASE=$(curl -sX GET "https://api.github.com/repos/janeczku/calibre-web/releases/latest" \
-    | awk '/tag_name/{print $4;exit}' FS='[""]'); \
-  fi && \
-  curl -o \
-    /tmp/calibre-web.tar.gz -L \
-    https://github.com/janeczku/calibre-web/archive/${CALIBREWEB_RELEASE}.tar.gz && \
+  CALIBREWEB_REF="${CALIBREWEB_REF:-develop}" && \
+  curl -fL --retry 3 -o \
+    /tmp/calibre-web.tar.gz \
+    "https://github.com/nigeldixon/calibre-web/archive/refs/heads/${CALIBREWEB_REF}.tar.gz" && \
   mkdir -p \
     /app/calibre-web && \
   tar xf \
