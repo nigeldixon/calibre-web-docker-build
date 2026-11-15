@@ -1,14 +1,13 @@
 #kcc
-FROM python:3.13-slim-bookworm AS kcc_builder
+FROM ubuntu:noble AS kcc_builder
 RUN set -x && \
-    BUILD_DEPS="build-essential git cmake libffi-dev libfreetype6-dev libfontconfig1-dev libpng-dev libjpeg-dev libssl-dev libxft-dev make python3-dev" && \
-    RUNTIME_DEPS="bash ca-certificates chrpath locales locales-all libfreetype6 libfontconfig1 p7zip-full python3 python3-pip libgl1" && \
+    BUILD_DEPS="build-essential git cmake libffi-dev libfreetype6-dev libfontconfig1-dev libpng-dev libjpeg-dev libssl-dev libxft-dev make python3 python3-dev python3-venv" && \
     DEBIAN_FRONTEND=noninteractive apt-get update -y && \
-    DEBIAN_FRONTENT=noninteractive  apt-get install -y --no-install-recommends ${BUILD_DEPS} git
+    apt-get install -y --no-install-recommends ${BUILD_DEPS}
 
 
 RUN set -x && \
-    python -m venv /opt/venv && \
+    python3 -m venv /opt/venv && \
     . /opt/venv/bin/activate && \
     pip install --upgrade pip
 
@@ -74,9 +73,13 @@ RUN \
     dbus \
     fcitx-rime \
     fonts-wqy-microhei \
+    libfontconfig1 \
+    libfreetype6 \
+    libgl1 \
     libmagic1 \
     libnss3 \
     libopengl0 \
+    p7zip-full \
     libqpdf29t64 \
     libxkbcommon-x11-0 \
     libxcb-cursor0 \
@@ -138,6 +141,11 @@ RUN \
   pip install --no-cache-dir --find-links https://wheel-index.linuxserver.io/ubuntu/ -r \
     requirements.txt -r \
     optional-requirements.txt && \
+  echo "[[ DONE ]]" && \
+  echo "**** INSTALL KCC WRAPPERS ****" && \
+  printf '#!/bin/sh\nexec /opt/kcc_venv/bin/python3 /opt/kcc/kcc-c2e.py "$@"\n' > /usr/local/bin/kcc-c2e && \
+  printf '#!/bin/sh\nexec /opt/kcc_venv/bin/python3 /opt/kcc/kcc-c2p.py "$@"\n' > /usr/local/bin/kcc-c2p && \
+  chmod +x /usr/local/bin/kcc-c2e /usr/local/bin/kcc-c2p && \
   echo "[[ DONE ]]" && \
   echo "**** cleanup ****" && \
   apt-get -y purge \
