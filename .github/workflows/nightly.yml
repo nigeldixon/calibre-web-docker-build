@@ -1,4 +1,4 @@
-name: Get latest develop commit
+name: Check dependency versions
 on:
   schedule:
     - cron:  '0 23 * * *'  
@@ -10,16 +10,22 @@ jobs:
       needsdeploy: ${{ steps.changes.outputs.modified }}
     steps:
       - uses: actions/checkout@v4
-      - name: Fetch release version
+      - name: Fetch dependency versions
         run: |
-          curl -sL https://api.github.com/repos/nigeldixon/calibre-web/branches | \
-          jq -r ".[] | select(.name==\"develop\") | .commit.sha" > latest-develop-commit.txt
+          {
+            echo "calibre-web: $(git ls-remote https://github.com/nigeldixon/calibre-web.git refs/heads/develop | cut -f1)"
+            echo "kcc: $(git ls-remote https://github.com/nigeldixon/kcc.git HEAD | cut -f1)"
+            echo "calibre: $(curl -sI https://calibre-ebook.com/dist/linux-x86_64 | awk 'tolower($1)=="location:"{print $2}' | tr -d '\r' | awk -F/ '{print $4}')"
+            echo "kepubify: $(curl -sI https://github.com/pgaskin/kepubify/releases/latest | awk 'tolower($1)=="location:"{print $2}' | tr -d '\r' | awk -F/ '{print $NF}')"
+          } > dependencies.txt
+          cat dependencies.txt
       - name: Process changes
         id: changes
         run: |
           git config --global user.name 'Release Bot'
           git config --global user.email 'releasebot@iamdixon.net'
-          git commit -am "New commits to develop branch" && modified=1 || modified=0 
+          git add dependencies.txt
+          git commit -m "Update dependency versions" && modified=1 || modified=0 
           echo "modified=$modified" >> $GITHUB_OUTPUT
           echo "$GITHUB_OUTPUT"
           git push
