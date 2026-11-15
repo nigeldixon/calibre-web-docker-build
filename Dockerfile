@@ -36,10 +36,8 @@ ARG DEBIAN_FRONTEND=noninteractive
 ARG DEBCONF_NOWARNINGS=yes
 
 ENV VIRTUAL_ENV=/opt/venv
-ENV KCC_VIRTUAL_ENV=/opt/kcc_venv
-ENV PATH="$VIRTUAL_ENV/bin:$KCC_VIRTUAL_ENV/bin:$PATH"
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 ENV CALIBRE_DBPATH=/config
-#ENV PYTHONPATH="$VIRTUAL_ENV:$PYTHONPATH"
 
 EXPOSE 8083
 
@@ -59,12 +57,10 @@ RUN \
   apt-get -q install -y --no-install-recommends \
     build-essential \
     curl \
-    gawk \
     libldap2-dev \
     libsasl2-dev \
     python3-dev \
     sed \
-    jq \
     && \
   echo "[[ DONE ]]" && \
   echo "**** RUNTIME DEPS ****" && \
@@ -94,7 +90,6 @@ RUN \
     python3-venv \
     python3-xdg \
     ttf-wqy-zenhei \
-    wget \
     xz-utils \
     && \
   echo "[[ DONE ]]" && \
