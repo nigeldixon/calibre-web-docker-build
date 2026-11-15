@@ -99,27 +99,18 @@ RUN \
     && \
   echo "[[ DONE ]]" && \
   echo "**** INSTALL CALIBRE ****" && \
-  if [ -z ${CALIBRE_RELEASE+x} ]; then \
-    CALIBRE_RELEASE=$(curl -sX GET "https://api.github.com/repos/kovidgoyal/calibre/releases/latest" \
-    | jq -r .tag_name); \
-  fi && \
-  CALIBRE_VERSION="$(echo ${CALIBRE_RELEASE} | cut -c2-)" && \ 
   mkdir -p /app/calibre && \
-  curl -o \
-    /tmp/calibre.txz -L \
-    "https://download.calibre-ebook.com/${CALIBRE_VERSION}/calibre-${CALIBRE_VERSION}-$(echo "$TARGETARCH" | sed "s/amd/x86_/").txz" && \
+  curl -fL --retry 3 -o \
+    /tmp/calibre.txz \
+    "https://calibre-ebook.com/dist/linux-$(echo "$TARGETARCH" | sed "s/amd64/x86_64/")" && \
   tar xf \
     /tmp/calibre.txz \
     -C /app/calibre && \
   echo "[[ DONE ]]" && \
   echo "**** INSTALL KEPUBIFY ****" && \
-  if [ -z ${KEPUBIFY_RELEASE+x} ]; then \
-    KEPUBIFY_RELEASE=$(curl -sX GET "https://api.github.com/repos/pgaskin/kepubify/releases/latest" \
-    | awk '/tag_name/{print $4;exit}' FS='[""]'); \
-  fi && \
-  curl -v -o \
-    /usr/bin/kepubify -L \
-    https://github.com/pgaskin/kepubify/releases/download/${KEPUBIFY_RELEASE}/kepubify-linux-$(echo "$TARGETARCH" | sed "s/amd64/64bit/") && \
+  curl -fL --retry 3 -o \
+    /usr/bin/kepubify \
+    "https://github.com/pgaskin/kepubify/releases/latest/download/kepubify-linux-$(echo "$TARGETARCH" | sed "s/amd64/64bit/")" && \
   chmod +x /usr/bin/kepubify && \
   echo "[[ DONE ]]" && \
   echo "**** INSTALL CALIBRE-WEB ****" && \
