@@ -38,6 +38,7 @@ ARG DEBCONF_NOWARNINGS=yes
 ENV VIRTUAL_ENV=/opt/venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 ENV CALIBRE_DBPATH=/config
+ENV KCC_WATCH_ENABLED=true
 
 EXPOSE 8083
 
@@ -47,9 +48,13 @@ VOLUME /c2e_comics
 VOLUME /c2e_manga
 VOLUME /calibredrop
 
+COPY scripts/ /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh /usr/local/bin/kcc_watch.py
+
 WORKDIR /app/calibre-web
 
-ENTRYPOINT ["python3", "cps.py"]
+ENTRYPOINT ["/usr/bin/tini", "-g", "--", "/usr/local/bin/docker-entrypoint.sh"]
+CMD ["python3", "cps.py"]
 
 RUN \
   apt-get -q update && \
@@ -69,6 +74,7 @@ RUN \
     dbus \
     fcitx-rime \
     fonts-wqy-microhei \
+    inotify-tools \
     libfontconfig1 \
     libfreetype6 \
     libgl1 \
@@ -89,9 +95,13 @@ RUN \
     python3 \
     python3-venv \
     python3-xdg \
+    tini \
     ttf-wqy-zenhei \
     xz-utils \
     && \
+  echo "[[ DONE ]]" && \
+  echo "**** PREPARE DROP FOLDERS ****" && \
+  mkdir -p /c2e_comics /c2e_manga /calibredrop && \
   echo "[[ DONE ]]" && \
   echo "**** INSTALL CALIBRE ****" && \
   mkdir -p /app/calibre && \
