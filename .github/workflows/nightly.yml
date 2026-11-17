@@ -34,4 +34,11 @@ jobs:
   deploy:
     needs: get-version
     if: needs.get-version.outputs.needsdeploy == 1
-    uses: ./.github/workflows/docker-publish.yml
+    # Call the gated entry point so the dependency build runs tests and the
+    # image smoke test before publishing.
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+    uses: ./.github/workflows/ci.yml
