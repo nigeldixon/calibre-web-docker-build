@@ -48,6 +48,8 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/arm64,linux/amd64
           provenance: false
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: |
+            type=gha,scope=amd64
+            type=gha,scope=arm64
+          cache-to: type=gha,scope=publish,mode=max
 

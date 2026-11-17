@@ -79,12 +79,19 @@ KCC_WATCH_CONFIG=/config/kcc-watch.ini python3 scripts/kcc_watch.py
 
 ## Tests
 
+Unit tests (no dependencies beyond the stdlib):
+
 ```sh
 python3 -m unittest discover -s tests -t . -v
 ```
 
-A real `kcc-c2e` conversion is also checked against the built image:
+The built image is also exercised end to end. All scripts take the image
+name and use `docker` by default; set `CONTAINER_ENGINE=podman` for podman.
 
 ```sh
-tests/image_smoke.sh <image>        # uses docker; set CONTAINER_ENGINE=podman for podman
+tests/image_contents.sh <image>     # required tools, directories, defaults
+tests/image_entrypoint.sh <image>   # watcher enable/disable, exec, tini as PID 1
+tests/image_smoke.sh <image>        # real kcc-c2e conversion
+tests/image_watcher.sh <image>      # watcher: success, failure -> .failed/, inotify
+tests/image_health.sh <image>       # calibre-web answers on its port
 ```

@@ -5,24 +5,45 @@ on:
   workflow_call:
 
 jobs:
-  kcc-conversion:
+  image:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [amd64, arm64]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set up QEMU
+        if: matrix.arch == 'arm64'
+        uses: docker/setup-qemu-action@v3
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build image (amd64)
+      - name: Build image (${{ matrix.arch }})
         uses: docker/build-push-action@v6
         with:
           context: .
           load: true
-          tags: calibre-web:smoke
-          platforms: linux/amd64
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          tags: calibre-web:test-${{ matrix.arch }}
+          platforms: linux/${{ matrix.arch }}
+          cache-from: type=gha,scope=${{ matrix.arch }}
+          cache-to: type=gha,scope=${{ matrix.arch }},mode=max
 
-      - name: Run kcc-c2e conversion
-        run: tests/image_smoke.sh calibre-web:smoke
+      - name: Image contents
+        run: tests/image_contents.sh calibre-web:test-${{ matrix.arch }}
+
+      - name: Entrypoint behaviour
+        run: tests/image_entrypoint.sh calibre-web:test-${{ matrix.arch }}
+
+      - name: kcc-c2e conversion
+        run: tests/image_smoke.sh calibre-web:test-${{ matrix.arch }}
+
+      - name: Watcher end-to-end
+        run: tests/image_watcher.sh calibre-web:test-${{ matrix.arch }}
+
+      - name: calibre-web health
+        if: matrix.arch == 'amd64'
+        run: tests/image_health.sh calibre-web:test-${{ matrix.arch }}
