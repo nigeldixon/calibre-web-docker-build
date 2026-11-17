@@ -1,8 +1,8 @@
 name: Image smoke test
 on:
-  push:
   pull_request:
   workflow_dispatch:
+  workflow_call:
 
 jobs:
   kcc-conversion:
