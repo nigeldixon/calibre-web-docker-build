@@ -19,6 +19,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          # Resolve the branch tip at checkout time rather than the run's
+          # triggering SHA, so a dependency bump pushed earlier in the same
+          # run (nightly) is actually built.
+          ref: ${{ github.ref }}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
