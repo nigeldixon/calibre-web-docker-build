@@ -36,6 +36,7 @@ DEFAULTS: Dict[str, str] = {
     "settle_seconds": "60",
     "extensions": "cbz, cbr, cb7, cbt, zip, rar, 7z, pdf",
     "output": "/calibredrop",
+    "options": "-p KoLC",
     "concurrency": "1",
     "use_inotify": "true",
     "fail_threshold": "3",
@@ -52,6 +53,7 @@ ENV_GLOBALS: Dict[str, str] = {
     "KCC_WATCH_SETTLE": "settle_seconds",
     "KCC_WATCH_EXTENSIONS": "extensions",
     "KCC_WATCH_OUTPUT": "output",
+    "KCC_WATCH_OPTIONS": "options",
     "KCC_WATCH_CONCURRENCY": "concurrency",
     "KCC_WATCH_USE_INOTIFY": "use_inotify",
     "KCC_WATCH_FAIL_THRESHOLD": "fail_threshold",
@@ -173,7 +175,7 @@ def load_config(env: Optional[Dict[str, str]] = None) -> Config:
             section["output"] = env[f"{prefix}_OUTPUT"]
 
     folders = [
-        Folder(name=name, path=section["path"] or "", options=section.get("options") or "",
+        Folder(name=name, path=section["path"] or "", options=section.get("options") or values.get("options", ""),
                output=section.get("output"))
         for name, section in folder_sections.items()
     ]

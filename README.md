@@ -24,6 +24,7 @@ only to shorten the latency of local drops.
 | `KCC_WATCH_SETTLE` | `60` | Seconds a file must be unchanged before conversion |
 | `KCC_WATCH_EXTENSIONS` | `cbz, cbr, cb7, cbt, zip, rar, 7z, pdf` | Archive types to process |
 | `KCC_WATCH_OUTPUT` | `/calibredrop` | Output directory |
+| `KCC_WATCH_OPTIONS` | `-p KoLC` | Default `kcc-c2e` options for folders without their own |
 | `KCC_WATCH_CONCURRENCY` | `1` | Parallel conversions |
 | `KCC_WATCH_USE_INOTIFY` | `true` | Use `inotifywait` to shorten latency |
 | `KCC_WATCH_FAIL_THRESHOLD` | `3` | Failures before moving to `.failed/` |
@@ -60,10 +61,10 @@ output = /calibredrop/manga
 
 The `[kcc-watch]` section accepts the same settings as the environment
 variables, using their underlying names: `enabled`, `poll_seconds`,
-`settle_seconds`, `extensions`, `output`, `concurrency`, `use_inotify`,
-`fail_threshold`, `kcc_c2e`, `sevenzip`, `inotifywait` and `state_file`.
-Any section with a `path` key (other than `[kcc-watch]`) defines a watched
-folder and may also set `options` and `output`.
+`settle_seconds`, `extensions`, `output`, `options`, `concurrency`,
+`use_inotify`, `fail_threshold`, `kcc_c2e`, `sevenzip`, `inotifywait` and
+`state_file`. Any section with a `path` key (other than `[kcc-watch]`)
+defines a watched folder and may also set `options` and `output`.
 
 ### Per-folder environment overrides
 

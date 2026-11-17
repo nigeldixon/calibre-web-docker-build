@@ -11,7 +11,7 @@ fixtures="$(cd "$(dirname "$0")/fixtures" && pwd)"
     command -v kcc-c2e
     cat > /tmp/sample.cbz
     mkdir -p /tmp/out
-    kcc-c2e -p KoL -o /tmp/out /tmp/sample.cbz
+    kcc-c2e -p KoLC -o /tmp/out /tmp/sample.cbz
     test -n "$(ls -A /tmp/out)"
     ls -l /tmp/out
 ' < "$fixtures/sample.cbz"

@@ -52,6 +52,17 @@ class ConfigTests(unittest.TestCase):
         self.assertEqual({f.name for f in config.folders}, {"comics", "manga"})
         self.assertIn(".cbz", config.extensions)
         self.assertIn(".rar", config.extensions)
+        self.assertEqual({f.options for f in config.folders}, {"-p KoLC"})
+
+    def test_global_options_env_and_folder_override(self):
+        config = kw.load_config(env={"KCC_WATCH_OPTIONS": "-p KV"})
+        self.assertEqual({f.options for f in config.folders}, {"-p KV"})
+        config = kw.load_config(
+            env={"KCC_WATCH_OPTIONS": "-p KV", "C2E_COMICS_OPTIONS": "-p K1"}
+        )
+        by_name = {f.name: f for f in config.folders}
+        self.assertEqual(by_name["comics"].options, "-p K1")
+        self.assertEqual(by_name["manga"].options, "-p KV")
 
     def test_env_overrides_ini(self):
         with tempfile.TemporaryDirectory() as tmp:
