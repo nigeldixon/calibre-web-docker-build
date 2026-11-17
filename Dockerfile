@@ -162,5 +162,15 @@ RUN \
     /var/tmp/* \
     /root/.cache
 
+# The KCC entry points carry `#!/usr/bin/env python3`, but python3 on PATH is
+# calibre-web's venv (/opt/venv), which has no PySide6, so running them
+# directly fails. Point them at the KCC venv instead.
+RUN sed -i '1{/^#!/s|.*|#!/opt/kcc_venv/bin/python3|}' \
+        /opt/kcc/kcc-c2e.py /opt/kcc/kcc-c2p.py /opt/kcc/kcc.py && \
+    for f in /opt/kcc/kcc-c2e.py /opt/kcc/kcc-c2p.py /opt/kcc/kcc.py; do \
+        head -1 "$f" | grep -q '^#!/opt/kcc_venv/bin/python3$' || { \
+            echo "shebang not fixed: $f"; exit 1; }; \
+    done
+
 
 

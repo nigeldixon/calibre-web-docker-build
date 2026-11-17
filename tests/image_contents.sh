@@ -42,6 +42,12 @@ esac
         echo "KCC venv cannot import PySide6"
         exit 1
     }
+    # Running the KCC entry point directly must also use the KCC venv rather
+    # than the calibre-web python.
+    /opt/kcc/kcc-c2e.py --help >/dev/null 2>&1 || {
+        echo "kcc-c2e.py does not run directly"
+        exit 1
+    }
 
     echo "image contents OK (machine=$(uname -m))"
 '
