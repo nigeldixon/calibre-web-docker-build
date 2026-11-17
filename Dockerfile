@@ -19,6 +19,10 @@ RUN set -x && \
     . /opt/venv/bin/activate && \
     pip install --no-cache-dir PyMuPDF==1.26.6
 
+RUN set -x && \
+    . /opt/venv/bin/activate && \
+    pip install --no-cache-dir PySide6==6.12.0
+
 RUN git clone https://github.com/nigeldixon/kcc.git
 
 RUN set -x && \

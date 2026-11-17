@@ -81,3 +81,9 @@ KCC_WATCH_CONFIG=/config/kcc-watch.ini python3 scripts/kcc_watch.py
 ```sh
 python3 -m unittest discover -s tests -t . -v
 ```
+
+A real `kcc-c2e` conversion is also checked against the built image:
+
+```sh
+tests/image_smoke.sh <image>        # uses docker; set CONTAINER_ENGINE=podman for podman
+```
