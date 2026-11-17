@@ -33,6 +33,19 @@ wait_for() {
     return 1
 }
 
+# Wait for a path to disappear. The watcher deletes the source only after
+# kcc-c2e returns, which can lag the output file appearing (especially under
+# emulation), so this must not be an immediate check.
+wait_gone() {
+    i=0
+    while [ "$i" -lt 120 ]; do
+        if ! "$engine" exec "$cid" test -e "$1"; then return 0; fi
+        i=$((i + 1))
+        sleep 2
+    done
+    return 1
+}
+
 fail() {
     echo "FAIL: $1"
     "$engine" logs "$cid" 2>&1 | tail -25 || true
@@ -43,7 +56,7 @@ fail() {
 start false
 "$engine" cp "$fixtures/sample.cbz" "$cid:/c2e_comics/sample.cbz"
 wait_for /calibredrop/sample.kepub.epub || fail "no output for sample.cbz"
-"$engine" exec "$cid" test ! -e /c2e_comics/sample.cbz || fail "source not deleted after success"
+wait_gone /c2e_comics/sample.cbz || fail "source not deleted after success"
 echo "watcher success OK"
 "$engine" rm -f "$cid" >/dev/null 2>&1; cid=""
 
@@ -52,7 +65,7 @@ printf 'not a real archive\n' > "$tmp/corrupt.cbz"
 start false
 "$engine" cp "$tmp/corrupt.cbz" "$cid:/c2e_comics/corrupt.cbz"
 wait_for /c2e_comics/.failed/corrupt.cbz || fail "corrupt file not moved to .failed/"
-"$engine" exec "$cid" test ! -e /c2e_comics/corrupt.cbz || fail "corrupt source still present"
+wait_gone /c2e_comics/corrupt.cbz || fail "corrupt source still present"
 echo "watcher failure OK"
 "$engine" rm -f "$cid" >/dev/null 2>&1; cid=""
 
