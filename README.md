@@ -28,6 +28,11 @@ only to shorten the latency of local drops.
 | `KCC_WATCH_USE_INOTIFY` | `true` | Use `inotifywait` to shorten latency |
 | `KCC_WATCH_FAIL_THRESHOLD` | `3` | Failures before moving to `.failed/` |
 | `KCC_WATCH_STATE` | `/config/kcc-watch-state.json` | Persisted state |
+| `KCC_WATCH_CONFIG` | `/config/kcc-watch.ini` | Configuration file path |
+| `KCC_WATCH_KCC_C2E` | `/usr/local/bin/kcc-c2e` | KCC converter command |
+| `KCC_WATCH_SEVENZIP` | `7z` | Archive validation command |
+| `KCC_WATCH_INOTIFYWAIT` | `inotifywait` | inotify helper command |
+| `KCC_WATCH_LOGLEVEL` | `INFO` | Log level |
 
 Drop folders default to `comics` → `/c2e_comics` and `manga` → `/c2e_manga`.
 
@@ -52,6 +57,13 @@ output = /calibredrop/manga
 
 `options` are passed through to `kcc-c2e`. Precedence is
 **environment variables > ini file > defaults**.
+
+The `[kcc-watch]` section accepts the same settings as the environment
+variables, using their underlying names: `enabled`, `poll_seconds`,
+`settle_seconds`, `extensions`, `output`, `concurrency`, `use_inotify`,
+`fail_threshold`, `kcc_c2e`, `sevenzip`, `inotifywait` and `state_file`.
+Any section with a `path` key (other than `[kcc-watch]`) defines a watched
+folder and may also set `options` and `output`.
 
 ### Per-folder environment overrides
 
