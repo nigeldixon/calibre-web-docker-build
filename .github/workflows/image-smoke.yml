@@ -33,7 +33,7 @@ jobs:
           cache-to: type=gha,scope=${{ matrix.arch }},mode=max
 
       - name: Image contents
-        run: tests/image_contents.sh calibre-web:test-${{ matrix.arch }}
+        run: tests/image_contents.sh calibre-web:test-${{ matrix.arch }} ${{ matrix.arch }}
 
       - name: Entrypoint behaviour
         run: tests/image_entrypoint.sh calibre-web:test-${{ matrix.arch }}
@@ -45,5 +45,4 @@ jobs:
         run: tests/image_watcher.sh calibre-web:test-${{ matrix.arch }}
 
       - name: calibre-web health
-        if: matrix.arch == 'amd64'
         run: tests/image_health.sh calibre-web:test-${{ matrix.arch }}

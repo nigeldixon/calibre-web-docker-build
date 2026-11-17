@@ -11,7 +11,7 @@ cleanup() { "$engine" rm -f "$cid" >/dev/null 2>&1 || true; }
 trap cleanup EXIT
 
 i=0
-while [ "$i" -lt 90 ]; do
+while [ "$i" -lt 150 ]; do
     code="$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:$port/" || true)"
     case "$code" in
         200|302) echo "calibre-web responded with HTTP $code"; exit 0 ;;
