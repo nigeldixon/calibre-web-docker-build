@@ -66,6 +66,10 @@ WORKDIR /app/calibre-web
 ENTRYPOINT ["/usr/bin/tini", "-g", "--", "/usr/local/bin/docker-entrypoint.sh"]
 CMD ["python3", "cps.py"]
 
+# fcitx-rime (a CJK input method) dragged in fcitx, rime, opencc, presage
+# and the whole Qt5 stack, none of which a headless server uses. The only
+# pieces of that tree PySide6's Qt needs are libglib2.0-0t64 (QtCore) and
+# libegl1 (QtGui), now listed explicitly.
 RUN \
   apt-get -q update && \
   echo "**** BUILD DEPS ****" && \
@@ -82,12 +86,13 @@ RUN \
   apt-get -q install -y --no-install-recommends \
     ca-certificates \
     dbus \
-    fcitx-rime \
     fonts-wqy-microhei \
     inotify-tools \
+    libegl1 \
     libfontconfig1 \
     libfreetype6 \
     libgl1 \
+    libglib2.0-0t64 \
     libmagic1 \
     libnss3 \
     libopengl0 \
