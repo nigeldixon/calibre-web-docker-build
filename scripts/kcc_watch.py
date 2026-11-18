@@ -36,7 +36,10 @@ DEFAULTS: Dict[str, str] = {
     "settle_seconds": "60",
     "extensions": "cbz, cbr, cb7, cbt, zip, rar, 7z, pdf",
     "output": "/calibredrop",
-    "options": "-p KoLC",
+    # -p KoLC targets the Kobo Libra Colour geometry, but kcc-c2e still
+    # converts to grayscale unless --forcecolor is given. The GUI derives
+    # that from the profile; the command line does not.
+    "options": "-p KoLC --forcecolor",
     "concurrency": "1",
     "use_inotify": "true",
     "fail_threshold": "3",

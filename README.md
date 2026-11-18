@@ -24,7 +24,7 @@ only to shorten the latency of local drops.
 | `KCC_WATCH_SETTLE` | `60` | Seconds a file must be unchanged before conversion |
 | `KCC_WATCH_EXTENSIONS` | `cbz, cbr, cb7, cbt, zip, rar, 7z, pdf` | Archive types to process |
 | `KCC_WATCH_OUTPUT` | `/calibredrop` | Output directory |
-| `KCC_WATCH_OPTIONS` | `-p KoLC` | Default `kcc-c2e` options for folders without their own |
+| `KCC_WATCH_OPTIONS` | `-p KoLC --forcecolor` | Default `kcc-c2e` options for folders without their own |
 | `KCC_WATCH_CONCURRENCY` | `1` | Parallel conversions |
 | `KCC_WATCH_USE_INOTIFY` | `true` | Use `inotifywait` to shorten latency |
 | `KCC_WATCH_FAIL_THRESHOLD` | `3` | Failures before moving to `.failed/` |
@@ -36,6 +36,11 @@ only to shorten the latency of local drops.
 | `KCC_WATCH_LOGLEVEL` | `INFO` | Log level |
 
 Drop folders default to `comics` → `/c2e_comics` and `manga` → `/c2e_manga`.
+
+The default `-p KoLC --forcecolor` targets a Kobo Libra Colour. `-p KoLC`
+alone sets the device geometry but still converts pages to grayscale, so
+`--forcecolor` is required to keep colour; KCC's GUI applies that
+automatically from the profile, the command line does not.
 
 ### Configuration file
 
@@ -92,6 +97,7 @@ name and use `docker` by default; set `CONTAINER_ENGINE=podman` for podman.
 tests/image_contents.sh <image> [arch]  # tools, dirs, defaults; with arch, checks machine type and runs arch-specific binaries
 tests/image_entrypoint.sh <image>   # watcher enable/disable, exec, tini as PID 1
 tests/image_smoke.sh <image>        # real kcc-c2e conversion
+tests/image_color.sh <image>        # default options keep a colour comic in colour
 tests/image_watcher.sh <image>      # watcher: success, failure -> .failed/, inotify
 tests/image_health.sh <image>       # calibre-web answers on its port
 ```

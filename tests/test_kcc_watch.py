@@ -52,7 +52,7 @@ class ConfigTests(unittest.TestCase):
         self.assertEqual({f.name for f in config.folders}, {"comics", "manga"})
         self.assertIn(".cbz", config.extensions)
         self.assertIn(".rar", config.extensions)
-        self.assertEqual({f.options for f in config.folders}, {"-p KoLC"})
+        self.assertEqual({f.options for f in config.folders}, {"-p KoLC --forcecolor"})
 
     def test_global_options_env_and_folder_override(self):
         config = kw.load_config(env={"KCC_WATCH_OPTIONS": "-p KV"})

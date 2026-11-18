@@ -41,6 +41,9 @@ jobs:
       - name: kcc-c2e conversion
         run: tests/image_smoke.sh calibre-web:test-${{ matrix.arch }}
 
+      - name: Colour preserved
+        run: tests/image_color.sh calibre-web:test-${{ matrix.arch }}
+
       - name: Watcher end-to-end
         run: tests/image_watcher.sh calibre-web:test-${{ matrix.arch }}
 
