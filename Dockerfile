@@ -26,7 +26,10 @@ RUN set -x && \
     . /opt/venv/bin/activate && \
     pip install --no-cache-dir PySide6-Essentials==6.12.0
 
-RUN git clone https://github.com/nigeldixon/kcc.git
+# Shallow clone: we only need the working tree, not KCC's history, and
+# dropping .git saves ~38 MB in the image.
+RUN git clone --depth 1 https://github.com/nigeldixon/kcc.git && \
+    rm -rf kcc/.git
 
 RUN set -x && \
     . /opt/venv/bin/activate && \
