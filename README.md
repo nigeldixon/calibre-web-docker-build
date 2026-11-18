@@ -24,7 +24,7 @@ only to shorten the latency of local drops.
 | `KCC_WATCH_SETTLE` | `60` | Seconds a file must be unchanged before conversion |
 | `KCC_WATCH_EXTENSIONS` | `cbz, cbr, cb7, cbt, zip, rar, 7z, pdf` | Archive types to process |
 | `KCC_WATCH_OUTPUT` | `/calibredrop` | Output directory |
-| `KCC_WATCH_OPTIONS` | `-p KoLC --forcecolor` | Default `kcc-c2e` options for folders without their own |
+| `KCC_WATCH_OPTIONS` | `-p KoLC --forcecolor` | Default `kcc-c2e` options; the manga folder also gets `-m` |
 | `KCC_WATCH_CONCURRENCY` | `1` | Parallel conversions |
 | `KCC_WATCH_USE_INOTIFY` | `true` | Use `inotifywait` to shorten latency |
 | `KCC_WATCH_FAIL_THRESHOLD` | `3` | Failures before moving to `.failed/` |
@@ -42,6 +42,12 @@ alone sets the device geometry but still converts pages to grayscale, so
 `--forcecolor` is required to keep colour; KCC's GUI applies that
 automatically from the profile, the command line does not.
 
+The `manga` folder defaults to `-p KoLC --forcecolor -m`. `-m`
+(`--manga-style`) is what makes `kcc-c2e` lay the pages out right-to-left and
+split double-page spreads; without it manga comes out left-to-right. Setting
+`C2E_MANGA_OPTIONS` (or `options` in the `[manga]` section) replaces the whole
+option string, so include `-m` there if you still want it.
+
 ### Configuration file
 
 Global settings and per-folder overrides can be set in `/config/kcc-watch.ini`:
@@ -53,11 +59,11 @@ output = /calibredrop
 
 [comics]
 path = /c2e_comics
-options = -p K1 -m
+options = -p K1
 
 [manga]
 path = /c2e_manga
-options = -p K1 -m --manga-style
+options = -p K1 -m
 output = /calibredrop/manga
 ```
 

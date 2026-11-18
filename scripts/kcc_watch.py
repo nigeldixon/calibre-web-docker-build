@@ -30,6 +30,13 @@ DEFAULT_FOLDERS: Dict[str, str] = {
     "manga": "/c2e_manga",
 }
 
+# Appended to the global options for a folder that has none of its own. Manga
+# reads right-to-left, which kcc-c2e only does with -m/--manga-style; without
+# it the pages are laid out left-to-right.
+DEFAULT_FOLDER_OPTIONS: Dict[str, str] = {
+    "manga": "-m",
+}
+
 DEFAULTS: Dict[str, str] = {
     "enabled": "true",
     "poll_seconds": "10",
@@ -94,6 +101,18 @@ def is_candidate(name: str, extensions: Set[str]) -> bool:
     if name.startswith("."):
         return False
     return os.path.splitext(name)[1].lower() in extensions
+
+
+def resolve_options(
+    name: str, section: Dict[str, Optional[str]], values: Dict[str, str]
+) -> str:
+    """Options for a folder: its own if set, else the global ones plus any
+    folder-specific default (manga gets -m for right-to-left reading)."""
+    explicit = (section.get("options") or "").strip()
+    if explicit:
+        return explicit
+    parts = [values.get("options", "").strip(), DEFAULT_FOLDER_OPTIONS.get(name, "")]
+    return " ".join(part for part in parts if part)
 
 
 @dataclass
@@ -178,7 +197,7 @@ def load_config(env: Optional[Dict[str, str]] = None) -> Config:
             section["output"] = env[f"{prefix}_OUTPUT"]
 
     folders = [
-        Folder(name=name, path=section["path"] or "", options=section.get("options") or values.get("options", ""),
+        Folder(name=name, path=section["path"] or "", options=resolve_options(name, section, values),
                output=section.get("output"))
         for name, section in folder_sections.items()
     ]

@@ -52,17 +52,32 @@ class ConfigTests(unittest.TestCase):
         self.assertEqual({f.name for f in config.folders}, {"comics", "manga"})
         self.assertIn(".cbz", config.extensions)
         self.assertIn(".rar", config.extensions)
-        self.assertEqual({f.options for f in config.folders}, {"-p KoLC --forcecolor"})
+        by_name = {f.name: f for f in config.folders}
+        self.assertEqual(by_name["comics"].options, "-p KoLC --forcecolor")
+        self.assertEqual(by_name["manga"].options, "-p KoLC --forcecolor -m")
+
+    def test_manga_defaults_to_right_to_left(self):
+        config = kw.load_config(env={})
+        by_name = {f.name: f for f in config.folders}
+        self.assertIn("-m", by_name["manga"].options.split())
+        self.assertNotIn("-m", by_name["comics"].options.split())
+
+    def test_manga_options_override_replaces_default(self):
+        config = kw.load_config(env={"C2E_MANGA_OPTIONS": "-p KV"})
+        by_name = {f.name: f for f in config.folders}
+        self.assertEqual(by_name["manga"].options, "-p KV")
 
     def test_global_options_env_and_folder_override(self):
         config = kw.load_config(env={"KCC_WATCH_OPTIONS": "-p KV"})
-        self.assertEqual({f.options for f in config.folders}, {"-p KV"})
+        by_name = {f.name: f for f in config.folders}
+        self.assertEqual(by_name["comics"].options, "-p KV")
+        self.assertEqual(by_name["manga"].options, "-p KV -m")
         config = kw.load_config(
             env={"KCC_WATCH_OPTIONS": "-p KV", "C2E_COMICS_OPTIONS": "-p K1"}
         )
         by_name = {f.name: f for f in config.folders}
         self.assertEqual(by_name["comics"].options, "-p K1")
-        self.assertEqual(by_name["manga"].options, "-p KV")
+        self.assertEqual(by_name["manga"].options, "-p KV -m")
 
     def test_env_overrides_ini(self):
         with tempfile.TemporaryDirectory() as tmp:

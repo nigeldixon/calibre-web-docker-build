@@ -1,5 +1,5 @@
 #!/bin/sh
-# Exercise the watcher inside the image: success, PDF, failure -> .failed/, and inotify.
+# Exercise the watcher inside the image: success, manga rtl, PDF, failure -> .failed/, and inotify.
 set -eu
 
 image="${1:?usage: image_watcher.sh <image>}"
@@ -58,6 +58,30 @@ start false
 wait_for /calibredrop/sample.kepub.epub || fail "no output for sample.cbz"
 wait_gone /c2e_comics/sample.cbz || fail "source not deleted after success"
 echo "watcher success OK"
+"$engine" rm -f "$cid" >/dev/null 2>&1; cid=""
+
+# manga: the manga folder must produce a right-to-left book. -m is applied by
+# default; without it kcc-c2e lays the pages out left-to-right.
+cat > "$tmp/check_rtl.py" <<'PY'
+import glob
+import sys
+import zipfile
+
+path = glob.glob("/calibredrop/*.kepub.epub")[0]
+z = zipfile.ZipFile(path)
+opf = [n for n in z.namelist() if n.endswith(".opf")][0]
+data = z.read(opf).decode("utf-8", "replace")
+rtl = 'page-progression-direction="rtl"' in data
+print("page-progression-direction:", "rtl" if rtl else "not rtl")
+sys.exit(0 if rtl else 1)
+PY
+start false
+"$engine" cp "$fixtures/sample.cbz" "$cid:/c2e_manga/sample.cbz"
+wait_for /calibredrop/sample.kepub.epub || fail "no output for /c2e_manga/sample.cbz"
+wait_gone /c2e_manga/sample.cbz || fail "manga source not deleted after success"
+"$engine" cp "$tmp/check_rtl.py" "$cid:/tmp/check_rtl.py"
+"$engine" exec "$cid" /opt/kcc_venv/bin/python3 /tmp/check_rtl.py || fail "manga output is not right-to-left"
+echo "watcher manga rtl OK"
 "$engine" rm -f "$cid" >/dev/null 2>&1; cid=""
 
 # pdf: a PDF is not an archive and must not be run through 7z validation
