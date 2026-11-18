@@ -12,10 +12,24 @@ jobs:
       - uses: actions/checkout@v4
       - name: Fetch dependency versions
         run: |
+          # Take the version from the calibre-<version>-x86_64.txz filename
+          # rather than a URL path segment: the dist endpoint normally
+          # redirects to download.calibre-ebook.com/<version>/ but can
+          # transiently redirect to GitHub, where the path segment is the
+          # org name (kovidgoyal) instead of the version.
+          calibre_url="$(curl -sI https://calibre-ebook.com/dist/linux-x86_64 | awk 'tolower($1)=="location:"{print $2}' | tr -d '\r')"
+          calibre_version="$(basename "$calibre_url" | sed -n 's/^calibre-\(.*\)-x86_64\.txz$/\1/p')"
+          if [ -z "$calibre_version" ]; then
+            calibre_version="$(printf '%s\n' "$calibre_url" | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)"
+          fi
+          if [ -z "$calibre_version" ]; then
+            echo "could not determine the calibre version from: $calibre_url" >&2
+            exit 1
+          fi
           {
             echo "calibre-web: $(git ls-remote https://github.com/nigeldixon/calibre-web.git refs/heads/develop | cut -f1)"
             echo "kcc: $(git ls-remote https://github.com/nigeldixon/kcc.git HEAD | cut -f1)"
-            echo "calibre: $(curl -sI https://calibre-ebook.com/dist/linux-x86_64 | awk 'tolower($1)=="location:"{print $2}' | tr -d '\r' | awk -F/ '{print $4}')"
+            echo "calibre: $calibre_version"
             echo "kepubify: $(curl -sI https://github.com/pgaskin/kepubify/releases/latest | awk 'tolower($1)=="location:"{print $2}' | tr -d '\r' | awk -F/ '{print $NF}')"
           } > dependencies.txt
           cat dependencies.txt
