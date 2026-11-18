@@ -86,7 +86,6 @@ RUN \
   apt-get -q install -y --no-install-recommends \
     ca-certificates \
     dbus \
-    fonts-wqy-microhei \
     inotify-tools \
     libegl1 \
     libfontconfig1 \
@@ -111,7 +110,6 @@ RUN \
     python3-venv \
     python3-xdg \
     tini \
-    ttf-wqy-zenhei \
     xz-utils \
     && \
   echo "[[ DONE ]]" && \
