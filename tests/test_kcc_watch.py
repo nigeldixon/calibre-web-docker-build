@@ -206,6 +206,10 @@ class CommandTests(unittest.TestCase):
 
 
 class ValidateArchiveTests(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+
     def test_valid(self):
         self.assertTrue(kw.validate_archive("/a.cbz", "7z", runner=FakeRunner(archive_rc=0)))
 
@@ -217,6 +221,27 @@ class ValidateArchiveTests(unittest.TestCase):
             raise FileNotFoundError("7z")
 
         self.assertFalse(kw.validate_archive("/a.cbz", "7z", runner=boom))
+
+    def test_pdf_does_not_use_sevenzip(self):
+        path = os.path.join(self.tmp.name, "comic.pdf")
+        with open(path, "wb") as handle:
+            handle.write(b"%PDF-1.7\n...\nstartxref\n9\n%%EOF\n")
+
+        def boom(*_args, **_kwargs):
+            raise AssertionError("7z must not be used to validate a PDF")
+
+        self.assertTrue(kw.validate_archive(path, "7z", runner=boom))
+
+    def test_pdf_truncated_is_invalid(self):
+        path = os.path.join(self.tmp.name, "truncated.pdf")
+        with open(path, "wb") as handle:
+            handle.write(b"%PDF-1.7\nno trailer yet")
+        self.assertFalse(kw.validate_archive(path, "7z", runner=FakeRunner()))
+
+    def test_pdf_missing_is_invalid(self):
+        self.assertFalse(
+            kw.validate_archive(os.path.join(self.tmp.name, "gone.pdf"), "7z", runner=FakeRunner())
+        )
 
 
 class HandleFileTests(unittest.TestCase):

@@ -285,12 +285,34 @@ def build_command(kcc_c2e: str, options: str, output: str, source: str) -> List[
     return command
 
 
+PDF_EXTENSIONS: Set[str] = {".pdf"}
+
+
+def validate_pdf(path: str, tail_bytes: int = 1024) -> bool:
+    """Check a PDF looks complete by looking for its %%EOF trailer.
+
+    A PDF is not an archive, so ``7z l`` cannot list it (and reports it as
+    invalid). Truncation is detected instead by the missing trailer.
+    """
+    try:
+        size = os.path.getsize(path)
+        with open(path, "rb") as handle:
+            if size > tail_bytes:
+                handle.seek(-tail_bytes, os.SEEK_END)
+            tail = handle.read()
+    except OSError:
+        return False
+    return b"%%EOF" in tail
+
+
 def validate_archive(
     path: str,
     sevenzip: str,
     runner: Callable[..., object] = subprocess.run,
     timeout: float = 300,
 ) -> bool:
+    if os.path.splitext(path)[1].lower() in PDF_EXTENSIONS:
+        return validate_pdf(path)
     try:
         result = runner(
             [sevenzip, "l", "-y", "-p1", path],

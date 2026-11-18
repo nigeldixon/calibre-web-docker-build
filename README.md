@@ -98,6 +98,6 @@ tests/image_contents.sh <image> [arch]  # tools, dirs, defaults; with arch, chec
 tests/image_entrypoint.sh <image>   # watcher enable/disable, exec, tini as PID 1
 tests/image_smoke.sh <image>        # real kcc-c2e conversion
 tests/image_color.sh <image>        # default options keep a colour comic in colour
-tests/image_watcher.sh <image>      # watcher: success, failure -> .failed/, inotify
+tests/image_watcher.sh <image>      # watcher: success, PDF, failure -> .failed/, inotify
 tests/image_health.sh <image>       # calibre-web answers on its port
 ```

@@ -1,5 +1,5 @@
 #!/bin/sh
-# Exercise the watcher inside the image: success, failure -> .failed/, and inotify.
+# Exercise the watcher inside the image: success, PDF, failure -> .failed/, and inotify.
 set -eu
 
 image="${1:?usage: image_watcher.sh <image>}"
@@ -58,6 +58,14 @@ start false
 wait_for /calibredrop/sample.kepub.epub || fail "no output for sample.cbz"
 wait_gone /c2e_comics/sample.cbz || fail "source not deleted after success"
 echo "watcher success OK"
+"$engine" rm -f "$cid" >/dev/null 2>&1; cid=""
+
+# pdf: a PDF is not an archive and must not be run through 7z validation
+start false
+"$engine" cp "$fixtures/sample.pdf" "$cid:/c2e_comics/sample.pdf"
+wait_for /calibredrop/sample.kepub.epub || fail "no output for sample.pdf"
+wait_gone /c2e_comics/sample.pdf || fail "source not deleted after PDF success"
+echo "watcher pdf OK"
 "$engine" rm -f "$cid" >/dev/null 2>&1; cid=""
 
 # failure: an invalid archive is moved to .failed/
