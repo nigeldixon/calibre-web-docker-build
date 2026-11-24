@@ -70,6 +70,10 @@ CMD ["python3", "cps.py"]
 # and the whole Qt5 stack, none of which a headless server uses. The only
 # pieces of that tree PySide6's Qt needs are libglib2.0-0t64 (QtCore) and
 # libegl1 (QtGui), now listed explicitly.
+ARG CALIBREWEB_REPO=nigeldixon/calibre-web
+ARG CALIBREWEB_REF=develop
+ARG CALIBREWEB_SHA=
+
 RUN \
   apt-get -q update && \
   echo "**** BUILD DEPS ****" && \
@@ -132,10 +136,15 @@ RUN \
   chmod +x /usr/bin/kepubify && \
   echo "[[ DONE ]]" && \
   echo "**** INSTALL CALIBRE-WEB ****" && \
-  CALIBREWEB_REF="${CALIBREWEB_REF:-develop}" && \
+  if [ -n "${CALIBREWEB_SHA}" ]; then \
+    CALIBREWEB_URL="https://github.com/${CALIBREWEB_REPO}/archive/${CALIBREWEB_SHA}.tar.gz"; \
+  else \
+    CALIBREWEB_URL="https://github.com/${CALIBREWEB_REPO}/archive/refs/heads/${CALIBREWEB_REF}.tar.gz"; \
+  fi && \
+  echo "Using calibre-web source: ${CALIBREWEB_URL}" && \
   curl -fL --retry 3 -o \
     /tmp/calibre-web.tar.gz \
-    "https://github.com/nigeldixon/calibre-web/archive/refs/heads/${CALIBREWEB_REF}.tar.gz" && \
+    "${CALIBREWEB_URL}" && \
   mkdir -p \
     /app/calibre-web && \
   tar xf \
