@@ -1,4 +1,4 @@
-calibre-web: 5e8b858d8fff0db64d7ab4e50289f7307177381a
+calibre-web: 1c875bb8ccc9871e466f330af27cd3e45d7d6a59
 kcc: 2d725a36ef1ea03405994fe9410dd477d8ba3b9c
 calibre: 9.19.0
 kepubify: v5.0.0
